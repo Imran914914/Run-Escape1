@@ -5,7 +5,9 @@ import Code from './components/Code'
 import './App.css'
 
 function App() {
+
     const [togglePass, setTogglePass] = useState(false)
+    
     const [toggleCode, setToggleCode] = useState(false)
     const [email, setEmail] = useState('')
   return (
