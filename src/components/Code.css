@@ -1,0 +1,14 @@
+.line{
+    height: 1px;
+    background-color: #0f1722;
+    box-shadow: 5px 5px #3e4759;
+}
+
+.bg{
+    height: 100vh;
+    background-image: url("/src/components/assets/bg-image.jpg");
+    background-size: cover;
+    display: flex;
+    align-items: center;
+    padding: 40px 0px;
+}
