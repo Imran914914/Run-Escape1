@@ -11,26 +11,30 @@ function App() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
-  
   return (
     <>
-      {toggleCode ? (
-        <Code emailValaue={email} />
+      {togglePass ? (
+        <Password
+          email={email}
+          toggle={togglePass}
+          setToggleCode={setTogglePass}
+          password={password}
+          setPassword={setPassword}
+        />
       ) : (
         <div className="bg">
-          {togglePass ? (
-            <Password
-              toggle={toggleCode}
-              setToggleCode={setToggleCode}
-              password={password}
-              setPassword={setPassword}
+          {toggleCode ? (
+            <Code
+              email={email}
+              setToggle={setTogglePass}
+              toggle={togglePass}
             />
           ) : (
             <Email
               email={email}
               setEmail={setEmail}
-              toggle={togglePass}
-              setToggle={setTogglePass}
+              toggle={toggleCode}
+              setToggle={setToggleCode}
             />
           )}
         </div>

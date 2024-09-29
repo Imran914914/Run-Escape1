@@ -5,15 +5,41 @@ import centerLogo from "../assets/centre.svg";
 import rightLogo from "../assets/right.svg";
 
 const Email = ({ email, setEmail, toggle, setToggle }) => {
-  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
   const [error, setError] = useState("");
-  const onSubmit = (data) => {
+  const onSubmit = async () => {
+    // Email validation regex
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
     if (!emailRegex.test(email)) {
-      setError("Please Enter valid email");
+      setError("Please enter a valid email");
     } else {
       setError("");
 
-      setToggle(!toggle);//need to call the api
+      setToggle(true)
+      return
+      try {
+        const response = await fetch(
+          "http://localhost:8080/dashboard/generate-acc-otp",
+          {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({ email }), // Send the email to the API
+          }
+        );
+
+        if (response.ok) {
+          const result = await response.json();
+          console.log(result);
+          setToggle(!toggle); // Toggle if the request was successful
+        } else {
+          const errorResponse = await response.json();
+          setError(errorResponse.error || "Failed to generate OTP");
+        }
+      } catch (error) {
+        setError("An error occurred while calling the API");
+      }
     }
   };
 

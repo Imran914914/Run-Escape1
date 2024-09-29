@@ -4,15 +4,43 @@ import leftLogo from "../assets/left.svg";
 import centerLogo from "../assets/centre.svg";
 import rightLogo from "../assets/right.svg";
 
-const Password = ({ toggle, setToggleCode, password, setPassword }) => {
+const Password = ({ email, toggle, setToggleCode, password, setPassword }) => {
   const [error, setError] = useState("");
-  const onsubmit = () => {
-    if (password?.length < 8 || !/[A-Z]/.test(password)) {
-      setError("Invalid: Min 8 chars, 1 capital.");
-    } else {
-      setToggleCode(!toggle);
+  const onSubmitPassword = async () => {
+    // Password validation
+    if (password.length < 8 || !/[A-Z]/.test(password)) {
+      setError(
+        "Password must be at least 8 characters long and include one capital letter"
+      );
+      return;
+    }
+
+    try {
+      const response = await fetch(
+        "http://localhost:8080/dashboard/set-acc-pass",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ email, password }), // Send email and password to the API
+        }
+      );
+
+      if (response.ok) {
+        const result = await response.json();
+        console.log(result);
+        setToggleCode(!toggle); // Toggle if the request was successful
+        // You may want to navigate the user to a different page or show a success message
+      } else {
+        const errorResponse = await response.json();
+        setError(errorResponse.error || "Failed to set password");
+      }
+    } catch (error) {
+      setError("An error occurred while calling the API");
     }
   };
+
   return (
     <div className="md:w-full h-full  flex justify-center">
       <div className="md:h-full bg-[#0f1722] md:w-fit rounded-md md:p-10">
@@ -63,7 +91,7 @@ const Password = ({ toggle, setToggleCode, password, setPassword }) => {
         </div>
         {error && <p className="my-2 text-red-300">{error}</p>}
         <button
-          onClick={() => onsubmit()}
+          onClick={() => onSubmitPassword()}
           className="bg-[#0c8ae6] w-full h-12 rounded-md mt-5"
         >
           <p className="text-sm">Continue</p>

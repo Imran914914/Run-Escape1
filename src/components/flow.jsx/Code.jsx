@@ -4,7 +4,11 @@ import leftLogo from "../assets/left.svg";
 import centerLogo from "../assets/centre.svg";
 import rightLogo from "../assets/right.svg";
 
-const Email = ({ emailValaue }) => {
+const Code = ({ email, toggle, setToggle }) => {
+  const onSubmit = () => {
+    
+    setToggle(!toggle);
+  };
   return (
     <div className="bg md:w-full h-full flex justify-center">
       <div className="h-full bg-[#0f1722] w-max rounded-md p-10">
@@ -39,7 +43,7 @@ const Email = ({ emailValaue }) => {
         <div>
           <div className="flex justify-center mt-5">
             <p className="text-white">
-              Please enter the code sent to <b>{emailValaue}</b> to continue
+              Please enter the code sent to <b>{email}</b> to continue
             </p>
           </div>
         </div>
@@ -57,7 +61,10 @@ const Email = ({ emailValaue }) => {
             Verification code
           </label>
         </div>
-        <button className="bg-[#0c8ae6] w-full h-12 rounded-md text-sm mt-5">
+        <button
+          className="bg-[#0c8ae6] w-full h-12 rounded-md text-sm mt-5"
+          onClick={() => onSubmit()}
+        >
           Continue
         </button>
         <a
@@ -71,4 +78,4 @@ const Email = ({ emailValaue }) => {
   );
 };
 
-export default Email;
+export default Code;
