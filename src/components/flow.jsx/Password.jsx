@@ -30,7 +30,7 @@ const Password = ({ email, toggle, setToggleCode, password, setPassword }) => {
       if (response.ok) {
         const result = await response.json();
         console.log(result);
-        setToggleCode(!toggle); // Toggle if the request was successful
+        // setToggleCode(!toggle); // Toggle if the request was successful
         // You may want to navigate the user to a different page or show a success message
       } else {
         const errorResponse = await response.json();

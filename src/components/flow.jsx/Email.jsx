@@ -15,8 +15,6 @@ const Email = ({ email, setEmail, toggle, setToggle }) => {
     } else {
       setError("");
 
-      setToggle(true)
-      return
       try {
         const response = await fetch(
           "http://localhost:8080/dashboard/generate-acc-otp",
@@ -25,7 +23,8 @@ const Email = ({ email, setEmail, toggle, setToggle }) => {
             headers: {
               "Content-Type": "application/json",
             },
-            body: JSON.stringify({ email }), // Send the email to the API
+            //also need to send the userId in here
+            body: JSON.stringify({ email, userId: "66e42cf092f68c35bbf4bba1" }), // Send the email to the API
           }
         );
 
