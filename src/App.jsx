@@ -17,7 +17,7 @@ function App() {
       {toggleCode ? (
         <div className="bg">
           <Code 
-            emailValaue={email} 
+            emailValue={email} 
           />
         </div>
       ) : (

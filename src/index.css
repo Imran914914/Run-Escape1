@@ -3,11 +3,12 @@
 @tailwind utilities;
 
 .bg{
-    height: 100vh;
+    height: 100%;
+    width: 100%;
     background-image: url("/src/components/assets/bg-image.jpg");
     background-size: cover;
     display: flex;
     align-items: center;
     justify-content: center;
-    padding: 40px 0px;
+    padding: 30px 0px;
 }
