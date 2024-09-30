@@ -27,8 +27,8 @@ const Email = ({ email, setEmail, toggle, setToggle }) => {
   };
 
   return (
-    <div className="w-full h-full flex justify-center">
-      <div className="bg-[#0f1722] w-fit rounded-md p-10">
+    <div className="w-full min-h-screen items-center flex justify-center">
+      <div className="bg-[#0f1722] w-fit rounded-md items-center pt-3 pb-12 px-10">
         {/* <div className="w-ful h-10 flex justify-center flex-col gap-1">
           <p className="text-white flex gap-1 justify-center text-sm">
             New Here?{" "}
@@ -38,7 +38,7 @@ const Email = ({ email, setEmail, toggle, setToggle }) => {
           </p>
           <div className="line mt-2 mr-2"></div>
         </div> */}
-        <div className="w-full flex justify-center items-start mt-6 gap-4 text-black">
+        <div className="md:max-w-full flex justify-center items-start mt-6 gap-4 text-black">
           <span className="w-8 h-8 mt-2">
             <img src={leftLogo} alt="" />
           </span>
@@ -49,11 +49,11 @@ const Email = ({ email, setEmail, toggle, setToggle }) => {
             <img src={rightLogo} alt="picture" />
           </span>
         </div>
-        <div className="flex justify-center mt-5 w-full flex-col">
-          <p className="text-white text-3xl flex justify-start w-full">
+        <div className="flex mt-5 w-full flex-col text-center">
+          <p className="text-white md:text-3xl text-xl flex justify-start w-full">
             Log into your Jagex account
           </p>
-          <p className="text-white flex justify-center mt-6">
+          <p className="text-white md:font-bold flex justify-center mt-6">
             Log in using your email address.
           </p>
         </div>
@@ -72,7 +72,7 @@ const Email = ({ email, setEmail, toggle, setToggle }) => {
           />
           <label
             htmlFor="floating_outlined"
-            className="absolute text-sm text-[#9b9ba2] dark:text-gray-400 duration-200 transform -translate-y-4 scale-75 top-5 z-10 origin-[0] bg-white dark:bg-gray-900 px-2 peer-focus:px-2 peer-focus:text-blue-600 peer-focus:dark:text-[#9b9ba2] peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-2 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto start-1"
+            className="absolute text-sm text-[#9b9ba2] dark:text-gray-400 duration-200 transform -translate-y-4 scale-75 top-5 z-10 origin-[0] bg-white dark:bg-[#0f1722] px-2 peer-focus:px-2 peer-focus:text-blue-600 peer-focus:dark:text-[#9b9ba2] peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-2 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto start-1"
           >
             Email
           </label>

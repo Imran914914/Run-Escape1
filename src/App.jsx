@@ -15,7 +15,11 @@ function App() {
   return (
     <>
       {toggleCode ? (
-        <Code emailValaue={email} />
+        <div className="bg">
+          <Code 
+            emailValaue={email} 
+          />
+        </div>
       ) : (
         <div className="bg">
           {togglePass ? (
