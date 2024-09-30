@@ -10,16 +10,23 @@ const Code = ({ email, toggle, setToggle }) => {
     setToggle(!toggle);
   };
   return (
-    <div className="bg md:w-full h-full flex justify-center">
-      <div className="h-full bg-[#0f1722] w-max rounded-md p-10">
-        <div className="w-ful h-10 flex justify-center flex-col gap-1">
-          <p className="text-white flex gap-1 justify-center text-sm">
-            Back to{" "}
-            <a href="/" className="text-blue-500">
-              Log In
-            </a>
-          </p>
-          <div className="line mt-2 mr-2"></div>
+    <div className="flex justify-center items-center h-screen">
+      <div className="bg-[#0f1722] rounded-lg p-10 w-fit">
+        <h2 className="text-2xl text-white font-bold mb-4">Verify Your Account</h2>
+        <p className="text-gray-500 mb-6">Enter the 4 digit code sent to the registered email Id.</p>
+
+        <div className="flex justify-between mb-6">
+          {code.map((digit, index) => (
+            <input
+              key={index}
+              id={`digit-${index}`}
+              type="text"
+              maxLength="1"
+              value={digit}
+              onChange={(e) => handleChange(index, e.target.value)}
+              className="w-14 h-12 text-center text-white bg-black text-2xl border border-gray-300 rounded-lg focus:outline-none focus:ring focus:border-blue-500"
+            />
+          ))}
         </div>
         <div className="w-full flex justify-center items-start mt-6 gap-4 text-black">
           <span className="w-8 h-8 mt-2">

@@ -13,6 +13,17 @@ function App() {
 
   return (
     <>
+<<<<<<< Updated upstream
+=======
+<<<<<<< HEAD
+      {toggleCode ? (
+        <div className="bg">
+          <Code 
+            emailValue={email} 
+          />
+        </div>
+=======
+>>>>>>> Stashed changes
       {togglePass ? (
         <Password
           email={email}
@@ -21,6 +32,10 @@ function App() {
           password={password}
           setPassword={setPassword}
         />
+<<<<<<< Updated upstream
+=======
+>>>>>>> 6d96c250b4edbb927fc7c624308432453dda5333
+>>>>>>> Stashed changes
       ) : (
         <div className="bg">
           {toggleCode ? (
