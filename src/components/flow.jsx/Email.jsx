@@ -1,5 +1,4 @@
 import React, { useRef, useState } from "react";
-import "../styles/Email.css";
 import leftLogo from "../assets/left.svg";
 import centerLogo from "../assets/centre.svg";
 import rightLogo from "../assets/right.svg";
@@ -7,19 +6,25 @@ import stream from "../assets/stream.svg"
 import { FaApple } from "react-icons/fa";
 import { FaGoogle } from "react-icons/fa";
 import { FaFacebook } from "react-icons/fa";
+import { useNavigate } from 'react-router-dom';
 
 
-const Email = ({ email, setEmail, toggle, setToggle }) => {
+const Email = ({ email, setEmail }) => {
   const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
   const [error, setError] = useState("");
   const redBox = useRef(null)
   const redText = useRef(null)
+  const navigate = useNavigate();
+  
+  const goToCode = () => navigate('/code');
+
   const onSubmit = (data) => {
     if (!emailRegex.test(email)) {
       setError("Please Enter valid email address");
     } else {
       setError("");
-      setToggle(!toggle);//need to call the api
+      // setToggle(!toggle);//need to call the api
+      goToCode();
     }
   };
 
@@ -42,7 +47,7 @@ const Email = ({ email, setEmail, toggle, setToggle }) => {
   return (
     <div className="w-full min-h-screen py-10 items-center flex justify-center">
       <div className="bg-[#0f1722] w-1/3 rounded-md min-h-1/2 items-center pt-10 pb-12 px-12">
-        <div className="w-ful flex justify-center flex-col gap-1">
+        {/* <div className="w-ful flex justify-center flex-col gap-1">
           <p className="text-white flex gap-1 justify-center text-sm">
             New Here?{" "}
             <a href="/" className="text-blue-500">
@@ -50,7 +55,7 @@ const Email = ({ email, setEmail, toggle, setToggle }) => {
             </a>
           </p>
           <div className="line mt-2 mr-2"></div>
-        </div>
+        </div> */}
         <div className="md:max-w-full flex justify-center items-start mt-6 gap-4 text-black">
           <span className="w-8 h-8 mt-2">
             <img src={leftLogo} alt="" />
@@ -80,13 +85,14 @@ const Email = ({ email, setEmail, toggle, setToggle }) => {
             value={email}
             onChange={(e) => onChange(e)}
             type="text"
+            autoComplete="off"
             id="floating_outlined"
-            className="block px-5 pt-5 h-12 w-full text-sm bg-transparent rounded-md border-1 appearance-none text-white dark:border-gray-600 border-y border-x border-slate-500 focus:border-0 hover:border-slate-500 dark:focus:border-blue-500 focus:outline-dashed outline-white outline-offset-4 focus:ring-1 focus:border-blue-600 peer"
+            className="block px-5 pt-5 h-12 w-full text-sm dark:bg-transparent rounded-md border-1 appearance-none text-white dark:border-gray-600 border-y border-x border-slate-500 focus:border-0 hover:border-slate-500 dark:focus:border-blue-500 focus:outline-dashed outline-white outline-offset-4 focus:ring-1 focus:border-blue-600 peer autofill:bg-transparent"
             placeholder=" "
           />
           <label
             htmlFor="floating_outlined"
-            className="absolute text-sm text-[#9b9ba2] dark:text-gray-400 duration-200 transform -translate-y-6 scale-75 top-5 z-10 origin-[0] dark:bg-transparent px-5 peer-focus:px-5 peer-focus:text-blue-600 peer-focus:dark:text-[#9b9ba2] peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-3 rtl:peer-focus:translate-x-2/4 rtl:peer-focus:left-auto start-1"
+            className="absolute text-sm text-[#9b9ba2] dark:text-gray-400 duration-200 transform -translate-y-6 scale-75 top-5 origin-[0] dark:bg-transparent px-5 peer-focus:px-5 peer-focus:text-blue-600 peer-focus:dark:text-[#9b9ba2] peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-3 rtl:peer-focus:translate-x-2/4 rtl:peer-focus:left-auto start-1 autofill:bg-transparent"
           >
             <span className="text-base" ref={redText}>Email</span>
           </label>
