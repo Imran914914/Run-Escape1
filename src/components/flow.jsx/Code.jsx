@@ -2,26 +2,64 @@ import React, { useState, useRef } from 'react';
 import leftLogo from "../assets/left.svg";
 import centerLogo from "../assets/centre.svg";
 import rightLogo from "../assets/right.svg";
+import { useNavigate } from 'react-router-dom';
+import { FaSpinner } from "react-icons/fa";
 
-const Email = ({ emailValaue }) => {
+const Code = ({ emailValue }) => {
+  const redBox = useRef(null);
+  const redText = useRef(null);
+  const [otp, setOtp] = useState('');
+  const [loading, setLoading] = useState(false);
+  const navigate = useNavigate();
+  const goToPassword = () => navigate('/password');
+  const [error, setError] = useState("");
+
+  const handleClick = async () => {
+    // console.log('code on code screen', code)
+    // console.log("emailvalue is",emailValue)
+    setLoading(!loading);
+    const response = await fetch(
+      "http://localhost:8080/dashboard/verify-acc-otp",
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        //also need to send the userId in here
+        body: JSON.stringify({ email:emailValue, otp}), //otp
+      }
+    );
+
+    if (response.ok) {
+      const result = await response.json();
+      console.log(result);
+      setLoading(false);
+      goToPassword();
+      // setToggle(!toggle); // Toggle if the request was successful
+    } else {
+      const errorResponse = await response.json();
+      setLoading(false);
+      setError(errorResponse.error || "Failed to generate OTP");
+      redBox.current.style.border = '1px solid rgba(233,77,105,1)'
+      redText.current.style.color = 'rgba(233,77,105,1)'
+    }
+  }
+  
+  const onChange = (e)=>{
+    setOtp(e.target.value)
+  }
+
   return (
-    <div className="flex justify-center items-center h-screen">
-      <div className="bg-[#0f1722] rounded-lg p-10 w-fit">
-        <h2 className="text-2xl text-white font-bold mb-4">Verify Your Account</h2>
-        <p className="text-gray-500 mb-6">Enter the 4 digit code sent to the registered email Id.</p>
-
-        <div className="flex justify-between mb-6">
-          {code.map((digit, index) => (
-            <input
-              key={index}
-              id={`digit-${index}`}
-              type="text"
-              maxLength="1"
-              value={digit}
-              onChange={(e) => handleChange(index, e.target.value)}
-              className="w-14 h-12 text-center text-white bg-black text-2xl border border-gray-300 rounded-lg focus:outline-none focus:ring focus:border-blue-500"
-            />
-          ))}
+    <div className="w-full min-h-screen py-10 items-center flex justify-center">
+      <div className="bg-[#0f1722] md:w-96 w-96 rounded-md min-h-1/2 items-center pt-10 pb-12 px-12">
+        <div className="w-ful flex justify-center flex-col gap-1">
+          <p className="text-white flex gap-1 justify-center text-sm">
+            Back to {" "}
+            <a href="/" className="text-blue-500">
+              Login
+            </a>
+          </p>
+          <div className="line mt-2 mr-2"></div>
         </div>
         <div className="md:max-w-full flex justify-center items-start mt-6 gap-4 text-black">
           <span className="w-8 h-8 mt-2">
@@ -38,15 +76,18 @@ const Email = ({ emailValaue }) => {
           <p className="text-white md:text-3xl text-xl flex justify-center w-full">
           Weve emailed you a verification code
           </p>
-          <p className="text-white text-3xl flex justify-center w-full">
-            verification code
+          <div className=''>
+          <p className="text-white flex justify-center md:text-sm text-xs mt-6">
+            Please enter the code sent to
           </p>
-        </div>
-        <div>
-          <div className="flex justify-center mt-5">
-            <p className="text-white">
-              Please enter the code sent to <b>{emailValaue}</b> to continue
-            </p>
+          <div className='text-white md:text-sm'>
+            <span className='font-bold v-fit mr-1'>
+              {emailValue}
+            </span>
+              <span className='md:text-sm text-xs'>
+                or Authenticator code to continue
+              </span>
+          </div>
           </div>
         </div>
         {/* <div className='w-full mt-5 relative'>
@@ -55,8 +96,9 @@ const Email = ({ emailValaue }) => {
         </div> */}
         <div className="relative mt-5">
           <input
+            maxLength={6}
             ref={redBox}
-            value={code}
+            value={otp}
             autoComplete="off"
             onChange={(e) => onChange(e)}
             type="text"
@@ -71,8 +113,15 @@ const Email = ({ emailValaue }) => {
             <span className="text-base" ref={redText}>Verification code</span>
           </label>
         </div>
-        <button className="bg-[#0c8ae6] w-full h-12 rounded-md text-sm mt-5">
-          Continue
+        {error && <p className="my-1 text-xs text-[#e94d69]">{error}</p>}
+        <button
+          disabled={loading}
+          onClick={() => {
+            handleClick();
+          }}
+          className="bg-[#0c8ae6] w-full h-12 tsxt-sm rounded-md mt-5 flex justify-center items-center"
+        >
+          {loading?<FaSpinner className="text-white spinner-border spinner-border-sm"/>:<p className="text-sm">Continue</p>}
         </button>
         <div className='text-center mt-4 text-sm'>
           <a href="/" className='text-blue-500'>Get help</a>
@@ -82,4 +131,4 @@ const Email = ({ emailValaue }) => {
   );
 };
 
-export default Email;
+export default Code;

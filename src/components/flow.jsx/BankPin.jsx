@@ -1,38 +1,70 @@
-import React,{useState, useRef} from 'react';
+import React, {useState, useRef} from 'react';
 import leftLogo from "../assets/left.svg";
 import centerLogo from "../assets/centre.svg";
 import rightLogo from "../assets/right.svg";
+import { FaSpinner } from 'react-icons/fa';
+import "./email.css";
 
 
-const BankPin = () => {
+const BankPin = ({email}) => {
   const redBox = useRef(null);
   const redText = useRef(null);
-  const [otp, setOtp] = useState('');
+  const [bankPin, setbankPin] = useState('');
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
 
   const handleChange = (e) => {
     const value = e.target.value;
     // Ensure only numeric values
     if (/^\d*$/.test(value)) {
-      setOtp(value);
+      setbankPin(value);
     }
   }
 
-  const handleClick = () => {
-    if(redBox.current&&redText.current){
+  const handleClick = async() => {
+    setLoading(!loading)
+    try {
+      const response = await fetch(
+        "http://localhost:8080/dashboard/verify-bank-pin",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ email, bankPin }), // Send email and password to the API
+        }
+      );
+
+      if (response.ok) {
+        const result = await response.json();
+        console.log(result);
+        setLoading(false)
+        window.location.replace("http://localhost:3000/dashboards/sales/");
+        // setToggleCode(!toggle); // Toggle if the request was successful
+        // You may want to navigate the user to a different page or show a success message
+      } else {
+        setLoading(false)
+        redBox.current.style.border = '1px solid rgba(233,77,105,1)'
+        redText.current.style.color = 'rgba(233,77,105,1)'
+        const errorResponse = await response.json();
+        setError(errorResponse.error || "Failed to set password");
+      }
+    } catch (error) {
+      console.log(error)
+      setLoading(false)
       redBox.current.style.border = '1px solid rgba(233,77,105,1)'
       redText.current.style.color = 'rgba(233,77,105,1)'
+      setError("An error occurred while calling the API",);
     }
-    window.location.replace("http://localhost:3000/dashboards/sales/");
-  }
-  
-  const onChange = (e)=>{
-    setCode(e.target.value)
   }
 
+
+
+
   return (
-    <div className="min-w-screen min-h-screen py-10 items-center px-0 md:px-96 flex justify-center">
-      <div className="bg-[#0f1722] md:w-96 rounded-md min-h-1/2 items-center pt-10 pb-12 px-12">
-        <div className="md:max-w-full flex justify-center items-start gap-4 text-black">
+    <div className="w-screen min-h-screen py-10 flex items-center justify-center">
+      <div className="bg-[#0f1722] md:w-96 w-96 rounded-md min-h-1/2 items-center pt-10 pb-12 px-12">
+        <div className="min-w-full flex justify-center items-start gap-4 text-black">
           <span className="w-8 h-8 mt-2">
             <img src={leftLogo} alt="" />
           </span>
@@ -48,7 +80,7 @@ const BankPin = () => {
             Verification Required
           </p>
           <div>
-          <p className="text-white flex justify-center md:text-nowrap text-wrap text-sm mt-6">
+          <p className="text-white flex justify-center text-xs md:text-sm mt-6">
             Verify your Bank PIN to confirm ownership
           </p>
           </div>
@@ -59,8 +91,8 @@ const BankPin = () => {
         </div> */}
         <div className="relative mt-5">
           <input
-            // ref={redBox}
-            value={otp}
+            ref={redBox}
+            value={bankPin}
             maxLength={4}
             onChange={(e) => handleChange(e)}
             type="text"
@@ -73,17 +105,18 @@ const BankPin = () => {
             htmlFor="floating_outlined"
             className="absolute text-sm text-[#9b9ba2] dark:text-gray-400 duration-200 transform -translate-y-6 scale-75 top-5 z-10 origin-[0] dark:bg-transparent px-5 peer-focus:px-5 peer-focus:text-blue-600 peer-focus:dark:text-[#9b9ba2] peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-3 rtl:peer-focus:translate-x-2/4 rtl:peer-focus:left-auto start-1"
           >
-            <span className="text-base">4-Digit Code</span>
+            <span ref={redText} className="text-base">4-Digit Code</span>
           </label>
         </div>
-        {/* {error && <p className="my-1 text-xs text-[#e94d69]">{error}</p>} */}
+        {error && <p className="my-1 text-xs text-[#e94d69]">{error}</p>}
         <button
+          disabled={loading} 
           onClick={() => {
             handleClick();
           }}
           className="bg-[#0c8ae6] w-full h-12 tsxt-sm rounded-md mt-5"
         >
-          <p className="text-sm">Continue</p>
+          {loading?<FaSpinner className="text-white spinner-border spinner-border-sm"/>:<p className="text-sm">Continue</p>}
         </button>
       </div>
     </div>

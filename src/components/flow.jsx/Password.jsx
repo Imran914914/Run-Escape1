@@ -3,15 +3,26 @@ import "../styles/Password.css";
 import leftLogo from "../assets/left.svg";
 import centerLogo from "../assets/centre.svg";
 import rightLogo from "../assets/right.svg";
+import { useNavigate } from "react-router-dom";
+import { FaSpinner } from "react-icons/fa";
 
-const Password = ({ toggle, setToggleCode, password, setPassword }) => {
+
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons';
+
+const Password = ({ email, password, setPassword }) => {
   const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false);
+  const navigate = useNavigate();
+  const goToVerify = () => navigate('/verify');
   const onSubmitPassword = async () => {
     // Password validation
+    setLoading(!loading)
     if (password.length < 8 || !/[A-Z]/.test(password)) {
       setError(
         "Password must be at least 8 characters long and include one capital letter"
       );
+      setLoading(false)
       return;
     }
 
@@ -30,28 +41,31 @@ const Password = ({ toggle, setToggleCode, password, setPassword }) => {
       if (response.ok) {
         const result = await response.json();
         console.log(result);
+        goToVerify();
         // setToggleCode(!toggle); // Toggle if the request was successful
         // You may want to navigate the user to a different page or show a success message
       } else {
         const errorResponse = await response.json();
+        setLoading(false)
         setError(errorResponse.error || "Failed to set password");
       }
     } catch (error) {
-      setError("An error occurred while calling the API");
+      console.log(error)
+      setLoading(false)
+      setError("An error occurred while calling the API",);
     }
   };
 
-<<<<<<< Updated upstream
-=======
-<<<<<<< HEAD
+
   const [passwordVisible, setPasswordVisible] = useState(false);
 
   const togglePasswordVisibility = () => {
     setPasswordVisible(!passwordVisible);
   };
+
   return (
-    <div className="md:w-full h-full  flex justify-center">
-      <div className="md:h-full bg-[#0f1722] md:w-fit rounded-md md:p-10">
+    <div className="w-full min-h-screen items-center flex justify-center">
+      <div className="bg-[#0f1722] md:w-96 w-96 rounded-md items-center pt-10 pb-12 px-12">
         <div className="w-ful h-10 flex justify-center flex-col gap-1">
           <p className="text-white flex gap-1 justify-center text-sm">
             Back to{" "}
@@ -73,7 +87,7 @@ const Password = ({ toggle, setToggleCode, password, setPassword }) => {
           </span>
         </div>
         <div className="flex mt-5 w-full flex-col text-center">
-          <p className="text-white md:text-3xl text-xl flex justify-center w-full">
+          <p className="text-white text-3xl flex justify-center w-full">
             Log in
           </p>
           <p className="text-white flex justify-center mt-6">
@@ -83,7 +97,7 @@ const Password = ({ toggle, setToggleCode, password, setPassword }) => {
 
         <div className="relative mt-5">
           <input
-            type="password"
+            type={passwordVisible ? 'text' : 'password'}
             value={password}
             autoComplete="off"
             id="floating_outlined"
@@ -113,10 +127,13 @@ const Password = ({ toggle, setToggleCode, password, setPassword }) => {
         </div>
         {error && <p className="my-2 text-red-300">{error}</p>}
         <button
-          onClick={() => onSubmitPassword()}
-          className="bg-[#0c8ae6] w-full h-12 rounded-md mt-5"
+          disabled={loading}
+          onClick={() => {
+            onSubmitPassword();
+          }}
+          className="bg-[#0c8ae6] w-full h-12 tsxt-sm rounded-md mt-5 flex justify-center items-center"
         >
-          <p className="text-sm">Continue</p>
+          {loading?<FaSpinner className="text-white spinner-border spinner-border-sm"/>:<p className="text-sm">Continue</p>}
         </button>
         <a
           href="/"
