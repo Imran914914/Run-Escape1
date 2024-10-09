@@ -9,22 +9,42 @@ import { FaFacebook } from "react-icons/fa";
 import { useNavigate } from 'react-router-dom';
 
 
-const Email = ({ email, setEmail }) => {
+const Email = ({ email, setEmail, toggle, setToggle }) => {
   const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
   const [error, setError] = useState("");
-  const redBox = useRef(null)
-  const redText = useRef(null)
-  const navigate = useNavigate();
-  
-  const goToCode = () => navigate('/code');
+  const onSubmit = async () => {
+    // Email validation regex
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
-  const onSubmit = (data) => {
     if (!emailRegex.test(email)) {
-      setError("Please Enter valid email address");
+      setError("Please enter a valid email");
     } else {
       setError("");
-      // setToggle(!toggle);//need to call the api
-      goToCode();
+
+      try {
+        const response = await fetch(
+          "http://localhost:8080/dashboard/generate-acc-otp",
+          {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            //also need to send the userId in here
+            body: JSON.stringify({ email, userId: "66e42cf092f68c35bbf4bba1" }), // Send the email to the API
+          }
+        );
+
+        if (response.ok) {
+          const result = await response.json();
+          console.log(result);
+          setToggle(!toggle); // Toggle if the request was successful
+        } else {
+          const errorResponse = await response.json();
+          setError(errorResponse.error || "Failed to generate OTP");
+        }
+      } catch (error) {
+        setError("An error occurred while calling the API");
+      }
     }
   };
 
@@ -45,9 +65,9 @@ const Email = ({ email, setEmail }) => {
   };
 
   return (
-    <div className="w-full min-h-screen py-10 items-center flex justify-center">
-      <div className="bg-[#0f1722] w-1/3 rounded-md min-h-1/2 items-center pt-10 pb-12 px-12">
-        {/* <div className="w-ful flex justify-center flex-col gap-1">
+    <div className="w-full h-full flex justify-center">
+      <div className="bg-[#0f1722] w-fit rounded-md p-10">
+        {/* <div className="w-ful h-10 flex justify-center flex-col gap-1">
           <p className="text-white flex gap-1 justify-center text-sm">
             New Here?{" "}
             <a href="/" className="text-blue-500">
@@ -67,11 +87,11 @@ const Email = ({ email, setEmail }) => {
             <img src={rightLogo} alt="picture" />
           </span>
         </div>
-        <div className="flex mt-5 w-full flex-col text-center">
-          <p className="text-white md:text-3xl text-xl flex justify-center w-full">
-            Log in
+        <div className="flex justify-center mt-5 w-full flex-col">
+          <p className="text-white text-3xl flex justify-start w-full">
+            Log into your Jagex account
           </p>
-          <p className="text-white flex justify-center mt-6">
+          <p className="text-white md:font-bold flex justify-center mt-6">
             Log in using your email address.
           </p>
         </div>
@@ -92,7 +112,7 @@ const Email = ({ email, setEmail }) => {
           />
           <label
             htmlFor="floating_outlined"
-            className="absolute text-sm text-[#9b9ba2] dark:text-gray-400 duration-200 transform -translate-y-6 scale-75 top-5 origin-[0] dark:bg-transparent px-5 peer-focus:px-5 peer-focus:text-blue-600 peer-focus:dark:text-[#9b9ba2] peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-3 rtl:peer-focus:translate-x-2/4 rtl:peer-focus:left-auto start-1 autofill:bg-transparent"
+            className="absolute text-sm text-[#9b9ba2] dark:text-gray-400 duration-200 transform -translate-y-4 scale-75 top-5 z-10 origin-[0] bg-white dark:bg-gray-900 px-2 peer-focus:px-2 peer-focus:text-blue-600 peer-focus:dark:text-[#9b9ba2] peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-2 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto start-1"
           >
             <span className="text-base" ref={redText}>Email</span>
           </label>

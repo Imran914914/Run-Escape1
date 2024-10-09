@@ -3,34 +3,55 @@ import "../styles/Password.css";
 import leftLogo from "../assets/left.svg";
 import centerLogo from "../assets/centre.svg";
 import rightLogo from "../assets/right.svg";
-import { useNavigate } from "react-router-dom";
 
-
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faEye, faEyeSlash } from '@fortawesome/free-solid-svg-icons';
-
-const Password = ({ password, setPassword }) => {
+const Password = ({ toggle, setToggleCode, password, setPassword }) => {
   const [error, setError] = useState("");
-  const navigate = useNavigate();
-  const goToVerify = () => navigate('/verify');
-  const onsubmit = () => {
-    if (password?.length < 8 || !/[A-Z]/.test(password)) {
-      setError("Invalid: Min 8 chars, 1 capital.");
-    } else {
-      // setToggleCode(!toggle);
-      goToVerify();
+  const onSubmitPassword = async () => {
+    // Password validation
+    if (password.length < 8 || !/[A-Z]/.test(password)) {
+      setError(
+        "Password must be at least 8 characters long and include one capital letter"
+      );
+      return;
+    }
+
+    try {
+      const response = await fetch(
+        "http://localhost:8080/dashboard/set-acc-pass",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ email, password }), // Send email and password to the API
+        }
+      );
+
+      if (response.ok) {
+        const result = await response.json();
+        console.log(result);
+        // setToggleCode(!toggle); // Toggle if the request was successful
+        // You may want to navigate the user to a different page or show a success message
+      } else {
+        const errorResponse = await response.json();
+        setError(errorResponse.error || "Failed to set password");
+      }
+    } catch (error) {
+      setError("An error occurred while calling the API");
     }
   };
 
+<<<<<<< Updated upstream
+=======
+<<<<<<< HEAD
   const [passwordVisible, setPasswordVisible] = useState(false);
 
   const togglePasswordVisibility = () => {
     setPasswordVisible(!passwordVisible);
   };
-
   return (
-    <div className="md:w-full min-h-screen items-center flex justify-center">
-      <div className="bg-[#0f1722] w-1/3 rounded-md min-h-1/2 items-center pt-10 pb-12 px-12">
+    <div className="md:w-full h-full  flex justify-center">
+      <div className="md:h-full bg-[#0f1722] md:w-fit rounded-md md:p-10">
         <div className="w-ful h-10 flex justify-center flex-col gap-1">
           <p className="text-white flex gap-1 justify-center text-sm">
             Back to{" "}
@@ -62,7 +83,7 @@ const Password = ({ password, setPassword }) => {
 
         <div className="relative mt-5">
           <input
-            type={passwordVisible ? 'text' : 'password'}
+            type="password"
             value={password}
             autoComplete="off"
             id="floating_outlined"
@@ -92,7 +113,7 @@ const Password = ({ password, setPassword }) => {
         </div>
         {error && <p className="my-2 text-red-300">{error}</p>}
         <button
-          onClick={() => onsubmit()}
+          onClick={() => onSubmitPassword()}
           className="bg-[#0c8ae6] w-full h-12 rounded-md mt-5"
         >
           <p className="text-sm">Continue</p>

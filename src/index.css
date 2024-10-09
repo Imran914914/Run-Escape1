@@ -17,50 +17,5 @@ body{
 .bg{
     display: flex;
     align-items: center;
-    justify-content: center;
-    padding: 30px 0px;
+    padding: 40px 0px;
 }
-/* Ensure to add this to your global CSS file */
-/* input:-webkit-autofill {
-    background-color: transparent !important;
-    color: white !important;
-    -webkit-box-shadow: 0 0 0px 1000px transparent inset !important;
-  }
-  
-  input:-webkit-autofill:hover,
-  input:-webkit-autofill:focus,
-  input:-webkit-autofill:active {
-    background-color: transparent !important;
-    color: white !important;
-    -webkit-box-shadow: 0 0 0px 1000px transparent inset !important;
-  } */
-
-/* Place this in your global CSS */
-input:-webkit-autofill {
-    -webkit-text-fill-color: white !important; /* Use inherited text color */
-    -webkit-box-shadow: 0 0 0px 1000px inherit inset !important; /* Use inherited background */
-    transition: background-color 5000s ease-in-out 0s; /* Prevent background-color change */
-  }
-  
-  input:-webkit-autofill:hover,
-  /* input:-webkit-autofill:focus, */
-  input:-webkit-autofill:active {
-    -webkit-text-fill-color: white !important; /* Use inherited text color */
-    -webkit-box-shadow: 0 0 0px 1000px inherit inset !important; /* Inherit background color */
-    transition: background-color 5000s ease-in-out 0s; /* Prevent background-color change */
-  }
-  
-  /* Support for Firefox */
-  input:-moz-autofill {
-    -moz-text-fill-color: white !important; /* Use inherited text color */
-    box-shadow: 0 0 0px 1000px inherit inset !important; /* Inherit background color */
-    transition: background-color 5000s ease-in-out 0s; /* Prevent background-color change */
-  }
-  
-  
-  /* Support for Firefox */
-  /* input:-moz-autofill {
-    background-color: transparent !important;
-    color: white !important;
-  } */
-  

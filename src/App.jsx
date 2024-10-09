@@ -31,80 +31,44 @@ function App() {
   // };
 
 
-  
   return (
     <>
-      <div className="bg">
-      <Routes>
-        <Route
-          path="*"
-          element={
-            <Email
-              email={email}
-              setEmail={setEmail}
-              // toggle={togglePass}
-              // setToggle={setTogglePass}
-              // onSubmit={handleEmailSubmit}
-            />
-          }
-        />
-        <Route
-          path="/code"
-          element={
-            <Code
-              emailValue={email}
-              // onSubmit={handleCodeSubmit}
-            />
-          }
-        />
-        <Route
-          path="/password"
-          element={
-            <Password
-              // toggle={toggleCode}
-              // setToggleCode={setToggleCode}
-              password={password}
-              setPassword={setPassword}
-              // onSubmit={handlePasswordSubmit}
-            />
-          }
-        />
-        <Route
-          path="/verify"
-          element={
-            <BankPin/>
-          }
-        />
-      </Routes>
-    </div>
-
-        {/* <Email
-          email={email}
-          setEmail={setEmail}
-          toggle={togglePass}
-          setToggle={setTogglePass}
-        /> */}
-      {/* {toggleCode ? (
+      {toggleCode ? (
+        <Code emailValaue={email} />
+      ) : (
         <div className="bg">
           <Code 
             emailValue={email} 
           />
         </div>
+=======
+>>>>>>> Stashed changes
+      {togglePass ? (
+        <Password
+          email={email}
+          toggle={togglePass}
+          setToggleCode={setTogglePass}
+          password={password}
+          setPassword={setPassword}
+        />
+<<<<<<< Updated upstream
+=======
+>>>>>>> 6d96c250b4edbb927fc7c624308432453dda5333
+>>>>>>> Stashed changes
       ) : (
         <div className="bg">
-          {togglePass ? (
-            <Password
-              toggle={toggleCode}
-              setToggleCode={setToggleCode}
-              password={password}
-              setPassword={setPassword}
+          {toggleCode ? (
+            <Code
+              email={email}
+              setToggle={setTogglePass}
+              toggle={togglePass}
             />
           ) : (
             <Email
               email={email}
               setEmail={setEmail}
-              toggle={togglePass}
-              setToggle={setTogglePass}
+              toggle={toggleCode}
+              setToggle={setToggleCode}
             />
           )}
         </div>
