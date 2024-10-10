@@ -11,7 +11,7 @@ const Code = ({ emailValue }) => {
   const [otp, setOtp] = useState('');
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
-  const goToPassword = () => navigate('/password');
+  const goToVerify = () => navigate('/verify');
   const [error, setError] = useState("");
 
   const handleClick = async () => {
@@ -34,7 +34,7 @@ const Code = ({ emailValue }) => {
       const result = await response.json();
       console.log(result);
       setLoading(false);
-      goToPassword();
+      goToVerify();
       // setToggle(!toggle); // Toggle if the request was successful
     } else {
       const errorResponse = await response.json();

@@ -14,7 +14,7 @@ const Password = ({ email, password, setPassword }) => {
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
-  const goToVerify = () => navigate('/verify');
+  const goToCode = () => navigate('/code');
   const onSubmitPassword = async () => {
     // Password validation
     setLoading(!loading)
@@ -41,7 +41,7 @@ const Password = ({ email, password, setPassword }) => {
       if (response.ok) {
         const result = await response.json();
         console.log(result);
-        goToVerify();
+        goToCode();
         // setToggleCode(!toggle); // Toggle if the request was successful
         // You may want to navigate the user to a different page or show a success message
       } else {

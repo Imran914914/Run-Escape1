@@ -74,8 +74,7 @@ const Email = ({ email, setEmail}) => {
   const redBox = useRef(null)
   const redText = useRef(null)
   const navigate = useNavigate();
-  
-  const goToCode = () => navigate('/code');
+  const goToPassword = () => navigate('/password');
 
   const onSubmit = async (data) => {
     setLoading(!loading);
@@ -102,7 +101,7 @@ const Email = ({ email, setEmail}) => {
         if (response.ok) {
           const result = await response.json();
           console.log(result);
-          goToCode();
+          goToPassword();
           // setToggle(!toggle); // Toggle if the request was successful
         } else {
           const errorResponse = await response.json();
