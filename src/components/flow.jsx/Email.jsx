@@ -3,42 +3,27 @@ import leftLogo from "../assets/left.svg";
 import centerLogo from "../assets/centre.svg";
 import rightLogo from "../assets/right.svg";
 import stream from "../assets/stream.svg";
-import { FaApple } from "react-icons/fa";
+import { FaApple, FaSpinner } from "react-icons/fa";
 import { FaGoogle } from "react-icons/fa";
 import { FaFacebook } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
-import ReCAPTCHA from 'react-google-recaptcha';
+import ReCAPTCHA from "react-google-recaptcha";
 
 const Email = ({ email, setEmail, userId }) => {
-  const [error, setError] = useState("");
-
-  const redBox = useRef(null);
-  const redText = useRef(null);
-  const navigate = useNavigate();
-
-  const goToCode = () => navigate("/code");
-  const onSubmit = async () => {
-    // Email validation regex
-    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-
-const RECAPTCHA_SITE_KEY = '6Lc4BGEqAAAAAEsXbhnCtpi4I5GjOsnSTU7bLv4O'; 
-
-
-const Email = ({ email, setEmail}) => {
+  const RECAPTCHA_SITE_KEY = "6Lc4BGEqAAAAAEsXbhnCtpi4I5GjOsnSTU7bLv4O";
 
   const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
-  const redBox = useRef(null)
-  const redText = useRef(null)
+  const redBox = useRef(null);
+  const redText = useRef(null);
   const navigate = useNavigate();
-  const goToPassword = () => navigate('/password');
+  const goToPassword = () => navigate("/password");
   const [captchaValue, setCaptchaValue] = useState(null);
 
   const onRecaptchaChange = (value) => {
-    console.log('Captcha value:', value);
     setCaptchaValue(value);
-    setError("")
+    setError("");
   };
 
   const onSubmit = async (data) => {
@@ -46,14 +31,16 @@ const Email = ({ email, setEmail}) => {
     if (!emailRegex.test(email)) {
       setError("Please Enter valid email address");
       setLoading(false);
-      redBox.current.style.border = '1px solid rgba(233,77,105,1)'
-      redText.current.style.color = 'rgba(233,77,105,1)'
-    } else if (!captchaValue) {
-      setError('invalid captcha')
-      setLoading(false);
-    }else {
+      redBox.current.style.border = "1px solid rgba(233,77,105,1)";
+      redText.current.style.color = "rgba(233,77,105,1)";
+    } 
+    // else if (!captchaValue) {
+    //   setError("invalid captcha");
+    //   setLoading(false);
+    // }
+     else {
       setError("");
-          try {
+      try {
         const response = await fetch(
           "http://localhost:8080/dashboard/generate-acc-otp",
           {
@@ -65,7 +52,7 @@ const Email = ({ email, setEmail}) => {
           }
         );
 
-        if (response.ok && captchaValue) {
+        if (response.ok) {
           const result = await response.json();
           console.log(result);
           goToPassword();
@@ -74,19 +61,18 @@ const Email = ({ email, setEmail}) => {
           const errorResponse = await response.json();
           setError(errorResponse.error || "Failed to generate OTP");
           setLoading(false);
-          redBox.current.style.border = '1px solid rgba(233,77,105,1)'
-          redText.current.style.color = 'rgba(233,77,105,1)'
+          redBox.current.style.border = "1px solid rgba(233,77,105,1)";
+          redText.current.style.color = "rgba(233,77,105,1)";
         }
       } catch (error) {
         console.log("error in here", error);
         setError("An error occurred while calling the API");
         setLoading(false);
-        redBox.current.style.border = '1px solid rgba(233,77,105,1)'
-        redText.current.style.color = 'rgba(233,77,105,1)'
+        redBox.current.style.border = "1px solid rgba(233,77,105,1)";
+        redText.current.style.color = "rgba(233,77,105,1)";
       }
     }
   };
-
 
   const handleClick = () => {
     if (redBox.current && redText.current) {
@@ -103,7 +89,6 @@ const Email = ({ email, setEmail}) => {
     // }
     setEmail(e.target.value);
   };
-
 
   return (
     <div className="w-full min-h-screen py-10 items-center flex justify-center">
@@ -161,12 +146,12 @@ const Email = ({ email, setEmail}) => {
           </label>
         </div>
         {error && <p className="my-1 text-xs text-[#e94d69]">{error}</p>}
-        <ReCAPTCHA
+        {/* <ReCAPTCHA
           className="mt-2"
           sitekey={RECAPTCHA_SITE_KEY}
           onChange={onRecaptchaChange}
           theme="dark"
-        />    
+        /> */}
         <button
           disabled={loading}
           onClick={() => {
@@ -174,7 +159,11 @@ const Email = ({ email, setEmail}) => {
           }}
           className="bg-[#0c8ae6] w-full h-12 tsxt-sm rounded-md mt-3 flex justify-center items-center"
         >
-          {loading?<FaSpinner className="text-white spinner-border spinner-border-sm"/>:<p className="text-sm">Continue</p>}
+          {loading ? (
+            <FaSpinner className="text-white spinner-border spinner-border-sm" />
+          ) : (
+            <p className="text-sm">Continue</p>
+          )}
         </button>
         <p className="text-white text-center mt-8 mb-6 text-sm">
           Or log in with
@@ -187,14 +176,22 @@ const Email = ({ email, setEmail}) => {
             <FaApple size={28} className="text-white" />
           </span>
           <span className="bg-[#212737] flex justify-center items-center h-12 w-12 rounded-md">
-          <img src={stream} alt="picture" className="h-8 w-6 shrink-0"/>
+            <img src={stream} alt="picture" className="h-8 w-6 shrink-0" />
           </span>
           <span className="bg-[#212737] flex justify-center items-center h-12 w-12 rounded-md">
             <FaFacebook size={27} className="text-white" />
           </span>
         </div>
-        <p className="text-center text-sm mt-5"><a href="/" className="text-blue-500">Log in with Run escape username</a></p>
-        <p className="text-center mt-3 text-sm"><a href="/" className="text-blue-500">Can't log in?</a></p>
+        <p className="text-center text-sm mt-5">
+          <a href="/" className="text-blue-500">
+            Log in with Run escape username
+          </a>
+        </p>
+        <p className="text-center mt-3 text-sm">
+          <a href="/" className="text-blue-500">
+            Can't log in?
+          </a>
+        </p>
       </div>
     </div>
   );
