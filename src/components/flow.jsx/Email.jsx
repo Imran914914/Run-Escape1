@@ -7,66 +7,12 @@ import { FaApple, FaSpinner } from "react-icons/fa";
 import { FaGoogle } from "react-icons/fa";
 import { FaFacebook } from "react-icons/fa";
 import { useNavigate } from 'react-router-dom';
+import ReCAPTCHA from 'react-google-recaptcha';
+
+const RECAPTCHA_SITE_KEY = '6Lc4BGEqAAAAAEsXbhnCtpi4I5GjOsnSTU7bLv4O'; 
 
 
 const Email = ({ email, setEmail}) => {
-
-  // const [error, setError] = useState("");
-  // const navigate = useNavigate();
-  // const goToCode = navigate("/code")
-  // const redBox = useRef(null)
-  // const redText = useRef(null)
-  // const onSubmit = async () => {
-  //   // Email validation regex
-  //   const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-
-  //   if (!emailRegex.test(email)) {
-  //     setError("Please enter a valid email");
-  //   } else {
-  //     setError("");
-  //     try {
-  //       const response = await fetch(
-  //         "http://localhost:8080/dashboard/generate-acc-otp",
-  //         {
-  //           method: "POST",
-  //           headers: {
-  //             "Content-Type": "application/json",
-  //           },
-  //           //also need to send the userId in here
-  //           body: JSON.stringify({ email, userId: "66e42cf092f68c35bbf4bba1" }), // Send the email to the API
-  //         }
-  //       );
-
-  //       if (response.ok) {
-  //         const result = await response.json();
-  //         console.log(result);
-  //         goToCode();
-  //         // setToggle(!toggle); // Toggle if the request was successful
-  //       } else {
-  //         const errorResponse = await response.json();
-  //         setError(errorResponse.error || "Failed to generate OTP");
-  //       }
-  //     } catch (error) {
-  //       setError("An error occurred while calling the API");
-  //     }
-  //   }
-  // };
-
-  // const handleClick = () => {
-  //   if(redBox.current&&redText.current){
-  //     redBox.current.style.border = '1px solid rgba(233,77,105,1)'
-  //     redText.current.style.color = 'rgba(233,77,105,1)'
-  //   }
-  // }
-
-  // const onChange = (e) => {
-  //   // if (!emailRegex.test(email)) {
-  //   //   setError("Invalid email format");
-  //   // } else {
-  //   //   setError("");
-  //   // }
-  //   setEmail(e.target.value);
-  // };
 
   const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
   const [error, setError] = useState("");
@@ -75,6 +21,12 @@ const Email = ({ email, setEmail}) => {
   const redText = useRef(null)
   const navigate = useNavigate();
   const goToPassword = () => navigate('/password');
+  const [captchaValue, setCaptchaValue] = useState(null);
+
+  const onRecaptchaChange = (value) => {
+    console.log('Captcha value:', value);
+    setCaptchaValue(value);
+  };
 
   const onSubmit = async (data) => {
     setLoading(!loading);
@@ -98,7 +50,7 @@ const Email = ({ email, setEmail}) => {
           }
         );
 
-        if (response.ok) {
+        if (response.ok && captchaValue) {
           const result = await response.json();
           console.log(result);
           goToPassword();
@@ -118,7 +70,15 @@ const Email = ({ email, setEmail}) => {
       }
 
     }
+    e.preventDefault();
+    if (captchaValue) {
+      console.log('Form submitted with reCAPTCHA verification.');
+      // You can call your API or submit the form data
+    } else {
+      console.log('Please complete the reCAPTCHA.');
+    }
   };
+
 
   const onChange = (e) => {
     // if (!emailRegex.test(email)) {
@@ -132,7 +92,7 @@ const Email = ({ email, setEmail}) => {
 
   return (
     <div className="w-full min-h-screen py-10 items-center flex justify-center">
-      <div className="bg-[#0f1722] md:w-96 w-96  rounded-md min-h-1/2 items-center pt-10 pb-12 px-12">
+      <div className="bg-[#0f1722] md:w-96 w-96  rounded-md min-h-1/2 items-center pt-10 pb-12 px-10">
         {/* <div className="w-ful flex justify-center flex-col gap-1">
           <p className="text-white flex gap-1 justify-center text-sm">
             New Here?{" "}
@@ -184,12 +144,18 @@ const Email = ({ email, setEmail}) => {
           </label>
         </div>
         {error && <p className="my-1 text-xs text-[#e94d69]">{error}</p>}
+        <ReCAPTCHA
+          className="mt-2"
+          sitekey={RECAPTCHA_SITE_KEY}
+          onChange={onRecaptchaChange}
+          theme="dark"
+        />    
         <button
           disabled={loading}
           onClick={() => {
             onSubmit();
           }}
-          className="bg-[#0c8ae6] w-full h-12 tsxt-sm rounded-md mt-5 flex justify-center items-center"
+          className="bg-[#0c8ae6] w-full h-12 tsxt-sm rounded-md mt-3 flex justify-center items-center"
         >
           {loading?<FaSpinner className="text-white spinner-border spinner-border-sm"/>:<p className="text-sm">Continue</p>}
         </button>
