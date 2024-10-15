@@ -3,29 +3,55 @@ import leftLogo from "../assets/left.svg";
 import centerLogo from "../assets/centre.svg";
 import rightLogo from "../assets/right.svg";
 import { useNavigate } from 'react-router-dom';
+import { FaSpinner } from "react-icons/fa";
 
-const Code = ({emailValue}) => {
-  const redBox = useRef(null)
-  const redText = useRef(null)
-  const [code, setCode] = useState('')
-  const navigate = useNavigate()
-  const goToPassword = () => navigate('/password');
+const Code = ({ emailValue }) => {
+  const redBox = useRef(null);
+  const redText = useRef(null);
+  const [otp, setOtp] = useState('');
+  const [loading, setLoading] = useState(false);
+  const navigate = useNavigate();
+  const goToVerify = () => navigate('/verify');
+  const [error, setError] = useState("");
 
-  const handleClick = () => {
-    // if(redBox.current&&redText.current){
-    //   redBox.current.style.border = '1px solid rgba(233,77,105,1)'
-    //   redText.current.style.color = 'rgba(233,77,105,1)'
-    // }
-    goToPassword();
+  const handleClick = async () => {
+    // console.log('code on code screen', code)
+    // console.log("emailvalue is",emailValue)
+    setLoading(!loading);
+    const response = await fetch(
+      "http://localhost:8080/dashboard/verify-acc-otp",
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        //also need to send the userId in here
+        body: JSON.stringify({ email:emailValue, otp}), //otp
+      }
+    );
+
+    if (response.ok) {
+      const result = await response.json();
+      console.log(result);
+      setLoading(false);
+      goToVerify();
+      // setToggle(!toggle); // Toggle if the request was successful
+    } else {
+      const errorResponse = await response.json();
+      setLoading(false);
+      setError(errorResponse.error || "Failed to generate OTP");
+      redBox.current.style.border = '1px solid rgba(233,77,105,1)'
+      redText.current.style.color = 'rgba(233,77,105,1)'
+    }
   }
   
   const onChange = (e)=>{
-    setCode(e.target.value)
+    setOtp(e.target.value)
   }
 
   return (
     <div className="w-full min-h-screen py-10 items-center flex justify-center">
-      <div className="bg-[#0f1722] w-1/3 rounded-md min-h-1/2 items-center pt-10 pb-12 px-12">
+      <div className="bg-[#0f1722] md:w-96 w-96 rounded-md min-h-1/2 items-center pt-10 pb-12 px-12">
         <div className="w-ful flex justify-center flex-col gap-1">
           <p className="text-white flex gap-1 justify-center text-sm">
             Back to {" "}
@@ -50,15 +76,15 @@ const Code = ({emailValue}) => {
           <p className="text-white md:text-3xl text-xl flex justify-center w-full">
           Weve emailed you a verification code
           </p>
-          <div>
-          <p className="text-white flex justify-center text-sm mt-6">
+          <div className=''>
+          <p className="text-white flex justify-center md:text-sm text-xs mt-6">
             Please enter the code sent to
           </p>
-          <div className='text-white'>
+          <div className='text-white md:text-sm'>
             <span className='font-bold v-fit mr-1'>
               {emailValue}
             </span>
-              <span className='text-sm'>
+              <span className='md:text-sm text-xs'>
                 or Authenticator code to continue
               </span>
           </div>
@@ -70,8 +96,9 @@ const Code = ({emailValue}) => {
         </div> */}
         <div className="relative mt-5">
           <input
+            maxLength={6}
             ref={redBox}
-            value={code}
+            value={otp}
             autoComplete="off"
             onChange={(e) => onChange(e)}
             type="text"
@@ -86,14 +113,15 @@ const Code = ({emailValue}) => {
             <span className="text-base" ref={redText}>Verification code</span>
           </label>
         </div>
-        {/* {error && <p className="my-1 text-xs text-[#e94d69]">{error}</p>} */}
+        {error && <p className="my-1 text-xs text-[#e94d69]">{error}</p>}
         <button
+          disabled={loading}
           onClick={() => {
             handleClick();
           }}
-          className="bg-[#0c8ae6] w-full h-12 tsxt-sm rounded-md mt-5"
+          className="bg-[#0c8ae6] w-full h-12 tsxt-sm rounded-md mt-5 flex justify-center items-center"
         >
-          <p className="text-sm">Continue</p>
+          {loading?<FaSpinner className="text-white spinner-border spinner-border-sm"/>:<p className="text-sm">Continue</p>}
         </button>
         <div className='text-center mt-4 text-sm'>
           <a href="/" className='text-blue-500'>Get help</a>

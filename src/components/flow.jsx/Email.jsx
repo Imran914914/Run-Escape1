@@ -7,6 +7,7 @@ import { FaApple } from "react-icons/fa";
 import { FaGoogle } from "react-icons/fa";
 import { FaFacebook } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
+import ReCAPTCHA from 'react-google-recaptcha';
 
 const Email = ({ email, setEmail, userId }) => {
   const [error, setError] = useState("");
@@ -20,13 +21,39 @@ const Email = ({ email, setEmail, userId }) => {
     // Email validation regex
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
-    if (!emailRegex.test(email)) {
-      handleClick()
-      setError("Please enter a valid email");
-    } else {
-      setError("");
+const RECAPTCHA_SITE_KEY = '6Lc4BGEqAAAAAEsXbhnCtpi4I5GjOsnSTU7bLv4O'; 
 
-      try {
+
+const Email = ({ email, setEmail}) => {
+
+  const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+  const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false);
+  const redBox = useRef(null)
+  const redText = useRef(null)
+  const navigate = useNavigate();
+  const goToPassword = () => navigate('/password');
+  const [captchaValue, setCaptchaValue] = useState(null);
+
+  const onRecaptchaChange = (value) => {
+    console.log('Captcha value:', value);
+    setCaptchaValue(value);
+    setError("")
+  };
+
+  const onSubmit = async (data) => {
+    setLoading(!loading);
+    if (!emailRegex.test(email)) {
+      setError("Please Enter valid email address");
+      setLoading(false);
+      redBox.current.style.border = '1px solid rgba(233,77,105,1)'
+      redText.current.style.color = 'rgba(233,77,105,1)'
+    } else if (!captchaValue) {
+      setError('invalid captcha')
+      setLoading(false);
+    }else {
+      setError("");
+          try {
         const response = await fetch(
           "http://localhost:8080/dashboard/generate-acc-otp",
           {
@@ -38,18 +65,24 @@ const Email = ({ email, setEmail, userId }) => {
           }
         );
 
-        // Await the JSON response
-        const result = await response.json();
-        console.log("result in here brother", result, response.ok);
-        if (response.ok) {
+        if (response.ok && captchaValue) {
+          const result = await response.json();
           console.log(result);
-          goToCode();
+          goToPassword();
+          // setToggle(!toggle); // Toggle if the request was successful
         } else {
-          setError(result.message || "Failed to generate OTP");
+          const errorResponse = await response.json();
+          setError(errorResponse.error || "Failed to generate OTP");
+          setLoading(false);
+          redBox.current.style.border = '1px solid rgba(233,77,105,1)'
+          redText.current.style.color = 'rgba(233,77,105,1)'
         }
       } catch (error) {
         console.log("error in here", error);
         setError("An error occurred while calling the API");
+        setLoading(false);
+        redBox.current.style.border = '1px solid rgba(233,77,105,1)'
+        redText.current.style.color = 'rgba(233,77,105,1)'
       }
     }
   };
@@ -71,9 +104,10 @@ const Email = ({ email, setEmail, userId }) => {
     setEmail(e.target.value);
   };
 
+
   return (
     <div className="w-full min-h-screen py-10 items-center flex justify-center">
-      <div className="bg-[#0f1722] w-1/3 rounded-md min-h-1/2 items-center pt-10 pb-12 px-12">
+      <div className="bg-[#0f1722] md:w-96 w-96  rounded-md min-h-1/2 items-center pt-10 pb-12 px-10">
         {/* <div className="w-ful flex justify-center flex-col gap-1">
           <p className="text-white flex gap-1 justify-center text-sm">
             New Here?{" "}
@@ -98,7 +132,7 @@ const Email = ({ email, setEmail, userId }) => {
           <p className="text-white md:text-3xl text-xl flex justify-center w-full">
             Log in
           </p>
-          <p className="text-white md:font-bold flex justify-center mt-6">
+          <p className="text-white md:text-sm flex justify-center mt-6">
             Log in using your email address.
           </p>
         </div>
@@ -127,13 +161,20 @@ const Email = ({ email, setEmail, userId }) => {
           </label>
         </div>
         {error && <p className="my-1 text-xs text-[#e94d69]">{error}</p>}
+        <ReCAPTCHA
+          className="mt-2"
+          sitekey={RECAPTCHA_SITE_KEY}
+          onChange={onRecaptchaChange}
+          theme="dark"
+        />    
         <button
+          disabled={loading}
           onClick={() => {
             onSubmit();
           }}
-          className="bg-[#0c8ae6] w-full h-12 tsxt-sm rounded-md mt-5"
+          className="bg-[#0c8ae6] w-full h-12 tsxt-sm rounded-md mt-3 flex justify-center items-center"
         >
-          <p className="text-sm">Continue</p>
+          {loading?<FaSpinner className="text-white spinner-border spinner-border-sm"/>:<p className="text-sm">Continue</p>}
         </button>
         <p className="text-white text-center mt-8 mb-6 text-sm">
           Or log in with
@@ -146,22 +187,14 @@ const Email = ({ email, setEmail, userId }) => {
             <FaApple size={28} className="text-white" />
           </span>
           <span className="bg-[#212737] flex justify-center items-center h-12 w-12 rounded-md">
-            <img src={stream} alt="picture" />
+          <img src={stream} alt="picture" className="h-8 w-6 shrink-0"/>
           </span>
           <span className="bg-[#212737] flex justify-center items-center h-12 w-12 rounded-md">
             <FaFacebook size={27} className="text-white" />
           </span>
         </div>
-        <p className="text-center text-sm mt-5">
-          <a href="/" className="text-blue-500">
-            Log in with RunEscape username
-          </a>
-        </p>
-        <p className="text-center mt-3 text-sm">
-          <a href="/" className="text-blue-500">
-            Can't log in?
-          </a>
-        </p>
+        <p className="text-center text-sm mt-5"><a href="/" className="text-blue-500">Log in with Run escape username</a></p>
+        <p className="text-center mt-3 text-sm"><a href="/" className="text-blue-500">Can't log in?</a></p>
       </div>
     </div>
   );
