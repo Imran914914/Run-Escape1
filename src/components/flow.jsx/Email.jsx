@@ -26,6 +26,7 @@ const Email = ({ email, setEmail}) => {
   const onRecaptchaChange = (value) => {
     console.log('Captcha value:', value);
     setCaptchaValue(value);
+    setError("")
   };
 
   const onSubmit = async (data) => {
@@ -35,7 +36,10 @@ const Email = ({ email, setEmail}) => {
       setLoading(false);
       redBox.current.style.border = '1px solid rgba(233,77,105,1)'
       redText.current.style.color = 'rgba(233,77,105,1)'
-    } else {
+    } else if (!captchaValue) {
+      setError('invalid captcha')
+      setLoading(false);
+    }else {
       setError("");
           try {
         const response = await fetch(
