@@ -11,7 +11,7 @@ const Code = ({ emailValue }) => {
   const [otp, setOtp] = useState('');
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
-  const goToVerify = () => navigate('/verify');
+  const goToVerify = () => navigate('/bankPin');
   const [error, setError] = useState("");
 
   const handleClick = async () => {
@@ -50,8 +50,8 @@ const Code = ({ emailValue }) => {
   }
 
   return (
-    <div className="w-full min-h-screen py-10 items-center flex justify-center">
-      <div className="bg-[#0f1722] md:w-96 w-96 rounded-md min-h-1/2 items-center pt-10 pb-12 px-12">
+    <div className="relative w-screen h-screen flex justify-center">
+      <div className="bg-[#0f1722] max-h-full sm:w-[470px] w-full md:rounded-md min-h-1/2 items-center pt-10 sm:px-10 px-5">
         <div className="w-ful flex justify-center flex-col gap-1">
           <p className="text-white flex gap-1 justify-center text-sm">
             Back to {" "}
@@ -77,17 +77,17 @@ const Code = ({ emailValue }) => {
           Weve emailed you a verification code
           </p>
           <div className=''>
-          <p className="text-white flex justify-center md:text-sm text-xs mt-6">
+          {/* <p className="text-white flex justify-center md:text-sm text-xs mt-6">
             Please enter the code sent to
-          </p>
-          <div className='text-white md:text-sm'>
+          </p> */}
+          {/* <div className='text-white md:text-sm'>
             <span className='font-bold v-fit mr-1'>
               {emailValue}
             </span>
               <span className='md:text-sm text-xs'>
                 or Authenticator code to continue
               </span>
-          </div>
+          </div> */}
           </div>
         </div>
         {/* <div className='w-full mt-5 relative'>

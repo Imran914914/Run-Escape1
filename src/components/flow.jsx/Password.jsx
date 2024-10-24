@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 import "../styles/Password.css";
 import leftLogo from "../assets/left.svg";
 import centerLogo from "../assets/centre.svg";
@@ -12,6 +12,8 @@ import { faEye, faEyeSlash } from "@fortawesome/free-solid-svg-icons";
 const Password = ({ email, password, setPassword }) => {
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
+  const redBox = useRef(null);
+  const redText = useRef(null);
   const navigate = useNavigate();
   const goToCode = () => navigate("/code");
   const onSubmitPassword = async () => {
@@ -22,6 +24,8 @@ const Password = ({ email, password, setPassword }) => {
         "Password must be at least 8 characters long and include one capital letter"
       );
       setLoading(false);
+      redBox.current.style.border = '1px solid rgba(233,77,105,1)'
+      redText.current.style.color = 'rgba(233,77,105,1)'
       return;
     }
 
@@ -45,11 +49,15 @@ const Password = ({ email, password, setPassword }) => {
         const errorResponse = await response.json();
         setLoading(false);
         setError(errorResponse.error || "Failed to set password");
+        redBox.current.style.border = '1px solid rgba(233,77,105,1)'
+        redText.current.style.color = 'rgba(233,77,105,1)'
       }
     } catch (error) {
       console.log(error);
       setLoading(false);
       setError("An error occurred while calling the API");
+        redBox.current.style.border = '1px solid rgba(233,77,105,1)'
+        redText.current.style.color = 'rgba(233,77,105,1)'
     }
   };
 
@@ -69,8 +77,8 @@ const Password = ({ email, password, setPassword }) => {
   };
 
   return (
-    <div className="w-full min-h-screen items-center flex justify-center">
-      <div className="bg-[#0f1722] md:w-96 w-96 rounded-md items-center pt-10 pb-12 px-12">
+    <div className="relative w-screen h-screen flex justify-center">
+      <div className="bg-[#0f1722] sm:w-[470px] w-full md:rounded-md items-center pt-10 sm:px-10 px-5">
         <div className="w-ful h-10 flex justify-center flex-col gap-1">
           <p className="text-white flex gap-1 justify-center text-sm">
             Back to{" "}
@@ -95,18 +103,19 @@ const Password = ({ email, password, setPassword }) => {
           <p className="text-white text-3xl flex justify-center w-full">
             Log in
           </p>
-          <p className="text-white flex justify-center mt-6">
+          <p className="text-white text-sm flex justify-center mt-6">
             Enter your password to continue.
           </p>
         </div>
 
         <div className="relative mt-5">
           <input
+            ref={redBox}
             type={passwordVisible ? "text" : "password"}
             value={password}
             autoComplete="off"
             id="floating_outlined"
-            className="block px-2.5 pb-2.5 pt-4 w-full text-sm text-gray-900 bg-transparent rounded-md border-1 appearance-none dark:text-white dark:border-gray-600 border-y border-x border-slate-500 focus:border-0 hover:border-slate-500 dark:focus:border-blue-500 focus:outline-dashed outline-white outline-offset-4 focus:ring-1 focus:border-blue-600 peer"
+            className="block px-5 pt-4 h-12 w-full text-sm dark:bg-transparent rounded-md border-1 appearance-none text-white dark:border-gray-600 border-y border-x border-slate-500 focus:border-0 hover:border-slate-500 dark:focus:border-blue-500 focus:outline-dashed outline-white outline-offset-4 focus:ring-1 focus:border-blue-600 peer autofill:bg-transparent"
             placeholder=" "
             onChange={(e) => setPassword(e.target.value)}
           />
@@ -115,7 +124,9 @@ const Password = ({ email, password, setPassword }) => {
             htmlFor="floating_outlined"
             className="absolute text-sm text-[#9b9ba2] dark:text-gray-400 duration-200 transform -translate-y-4 scale-75 top-5 z-10 origin-[0] bg-white dark:bg-[#0f1722] px-2 peer-focus:px-2 peer-focus:text-blue-600 peer-focus:dark:text-[#9b9ba2] peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-2 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto start-1"
           >
-            Password
+            <span className="text-base pl-3.5" ref={redText}>
+              Password
+            </span>
           </label>
           <span
             onClick={togglePasswordVisibility}
@@ -133,7 +144,7 @@ const Password = ({ email, password, setPassword }) => {
             />
           </span>
         </div>
-        {error && <p className="my-2 text-red-300">{error}</p>}
+        {error && <p className="my-1 text-xs text-[#e94d69]">{error}</p>}
         <button
           disabled={loading}
           onClick={() => {
@@ -151,7 +162,7 @@ const Password = ({ email, password, setPassword }) => {
           href="/"
           className="flex justify-center mt-8 text-blue-400 text-sm hover:underline"
         >
-          Forget password?
+          Forgot password?
         </a>
       </div>
     </div>

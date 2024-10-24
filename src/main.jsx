@@ -18,7 +18,7 @@ const router = createBrowserRouter([
         element: <App />,
       },
       {
-        path: "verify",   // Verify route as a child
+        path: "bankPin",   // Verify route as a child
         element: <App />,
       },
     ],

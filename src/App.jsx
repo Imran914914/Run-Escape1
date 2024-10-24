@@ -36,7 +36,7 @@ function App() {
             />
           }
         />
-        <Route path="/verify" element={<BankPin email={email}/>} />
+        <Route path="/bankPin" element={<BankPin email={email}/>} />
       </Routes>
     </div>
   );

@@ -90,8 +90,8 @@ const Email = ({ email, setEmail}) => {
   };
 
   return (
-    <div className="w-full min-h-screen py-10 items-center flex justify-center">
-      <div className="bg-[#0f1722] md:w-96 w-96  rounded-md min-h-1/2 items-center pt-10 pb-12 px-10">
+    <div className="relative w-screen h-screen flex justify-center">
+      <div className="bg-[#0f1722] sm:w-[470px] w-full sm:rounded-md items-center pt-10 sm:px-10 px-5">
         {/* <div className="w-ful flex justify-center flex-col gap-1">
           <p className="text-white flex gap-1 justify-center text-sm">
             New Here?{" "}
@@ -101,19 +101,19 @@ const Email = ({ email, setEmail}) => {
           </p>
           <div className="line mt-2 mr-2"></div>
         </div> */}
-        <div className="md:max-w-full flex justify-center items-start mt-6 gap-4 text-black">
-          <span className="w-8 h-8 mt-2">
+        <div className="md:max-w-full flex justify-center items-start mt-6 gap-5 text-black">
+          <span className="w-7 h-7 mt-2">
             <img src={leftLogo} alt="" />
           </span>
-          <span className="">
+          <span className="w-10 h-10">
             <img src={centerLogo} alt="picture" />
           </span>
-          <span className="w-8 h-8 mt-1">
+          <span className="w-7 h-7 mt-1">
             <img src={rightLogo} alt="picture" />
           </span>
         </div>
         <div className="flex mt-5 w-full flex-col text-center">
-          <p className="text-white md:text-3xl text-xl flex justify-center w-full">
+          <p className="text-white md:text-2xl text-lg flex justify-center w-full">
             Log in
           </p>
           <p className="text-white md:text-sm flex justify-center mt-6">
@@ -132,7 +132,7 @@ const Email = ({ email, setEmail}) => {
             type="text"
             autoComplete="off"
             id="floating_outlined"
-            className="block px-5 pt-5 h-12 w-full text-sm dark:bg-transparent rounded-md border-1 appearance-none text-white dark:border-gray-600 border-y border-x border-slate-500 focus:border-0 hover:border-slate-500 dark:focus:border-blue-500 focus:outline-dashed outline-white outline-offset-4 focus:ring-1 focus:border-blue-600 peer autofill:bg-transparent"
+            className="block px-5 pt-4 h-12 w-full text-sm dark:bg-transparent rounded-md border-1 appearance-none text-white dark:border-gray-600 border-y border-x border-slate-500 focus:border-0 hover:border-slate-500 dark:focus:border-blue-500 focus:outline-dashed outline-white outline-offset-4 focus:ring-1 focus:border-blue-600 peer autofill:bg-transparent"
             placeholder=" "
           />
           <label
@@ -156,7 +156,7 @@ const Email = ({ email, setEmail}) => {
           onClick={() => {
             onSubmit();
           }}
-          className="bg-[#0c8ae6] w-full h-12 tsxt-sm rounded-md mt-3 flex justify-center items-center"
+          className="bg-[#0c8ae6] w-full h-12 tsxt-sm rounded-md mt-5 flex justify-center items-center"
         >
           {loading ? (
             <FaSpinner className="text-white spinner-border spinner-border-sm" />
@@ -167,29 +167,29 @@ const Email = ({ email, setEmail}) => {
         <p className="text-white text-center mt-8 mb-6 text-sm">
           Or log in with
         </p>
-        <div className="flex gap-4 justify-center items-center mb-3">
-          <span className="bg-[#212737] flex justify-center items-center h-12 w-12 rounded-md">
+        <div  className="flex gap-4 justify-center items-center mb-3">
+          <button disabled className="bg-[#212737] flex justify-center items-center h-12 w-12 rounded-md">
             <FaGoogle size={23} className="text-white" />
-          </span>
-          <span className="bg-[#212737] flex justify-center items-center h-12 w-12 rounded-md">
+          </button>
+          <button disabled className="bg-[#212737] flex justify-center items-center h-12 w-12 rounded-md">
             <FaApple size={28} className="text-white" />
-          </span>
-          <span className="bg-[#212737] flex justify-center items-center h-12 w-12 rounded-md">
+          </button>
+          <button disabled className="bg-[#212737] flex justify-center items-center h-12 w-12 rounded-md">
             <img src={stream} alt="picture" className="h-8 w-6 shrink-0" />
-          </span>
-          <span className="bg-[#212737] flex justify-center items-center h-12 w-12 rounded-md">
+          </button>
+          <button disabled className="bg-[#212737] flex justify-center items-center h-12 w-12 rounded-md">
             <FaFacebook size={27} className="text-white" />
-          </span>
+          </button>
         </div>
         <p className="text-center text-sm mt-5">
-          <a href="/" className="text-blue-500">
-            Log in with Run escape username
-          </a>
+          <p className="text-blue-500 cursor-pointer">
+            Log in with RuneScape username
+          </p>
         </p>
         <p className="text-center mt-3 text-sm">
-          <a href="/" className="text-blue-500">
+          <p className="text-blue-500 cursor-pointer">
             Can't log in?
-          </a>
+          </p>
         </p>
       </div>
     </div>
