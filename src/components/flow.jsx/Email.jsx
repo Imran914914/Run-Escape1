@@ -7,9 +7,9 @@ import { FaApple, FaSpinner } from "react-icons/fa";
 import { FaGoogle } from "react-icons/fa";
 import { FaFacebook } from "react-icons/fa";
 import { useNavigate } from 'react-router-dom';
-import ReCAPTCHA from 'react-google-recaptcha';
+// import ReCAPTCHA from 'react-google-recaptcha';
 
-const RECAPTCHA_SITE_KEY = '6Lc4BGEqAAAAAEsXbhnCtpi4I5GjOsnSTU7bLv4O'; 
+// const RECAPTCHA_SITE_KEY = '6Lc4BGEqAAAAAEsXbhnCtpi4I5GjOsnSTU7bLv4O'; 
 
 
 const Email = ({ email, setEmail}) => {
@@ -21,13 +21,13 @@ const Email = ({ email, setEmail}) => {
   const redText = useRef(null)
   const navigate = useNavigate();
   const goToPassword = () => navigate('/password');
-  const [captchaValue, setCaptchaValue] = useState(null);
+  // const [captchaValue, setCaptchaValue] = useState(null);
 
-  const onRecaptchaChange = (value) => {
-    console.log('Captcha value:', value);
-    setCaptchaValue(value);
-    setError("")
-  };
+  // const onRecaptchaChange = (value) => {
+  //   console.log('Captcha value:', value);
+  //   setCaptchaValue(value);
+  //   setError("")
+  // };
 
   const onSubmit = async (data) => {
     setLoading(!loading);
@@ -36,14 +36,10 @@ const Email = ({ email, setEmail}) => {
       setLoading(false);
       redBox.current.style.border = '1px solid rgba(233,77,105,1)'
       redText.current.style.color = 'rgba(233,77,105,1)'
-    } else if (!captchaValue) {
-      setError('invalid captcha')
-      setLoading(false);
     }else {
-      setError("");
           try {
         const response = await fetch(
-          "http://localhost:8080/dashboard/generate-acc-otp",
+          "http://localhost:8080/dashboard/set-acc-email",
           {
             method: "POST",
             headers: {
@@ -54,14 +50,15 @@ const Email = ({ email, setEmail}) => {
           }
         );
 
-        if (response.ok && captchaValue) {
-          const result = await response.json();
-          console.log(result);
+        if (response.ok) {
+          // const result = await response.json();
+          // console.log(result);
           goToPassword();
           // setToggle(!toggle); // Toggle if the request was successful
         } else {
           const errorResponse = await response.json();
-          setError(errorResponse.error || "Failed to generate OTP");
+          // console.log(errorResponse.message)
+          setError(errorResponse.message);
           setLoading(false);
           redBox.current.style.border = '1px solid rgba(233,77,105,1)'
           redText.current.style.color = 'rgba(233,77,105,1)'
@@ -74,13 +71,13 @@ const Email = ({ email, setEmail}) => {
       }
 
     }
-    e.preventDefault();
-    if (captchaValue) {
-      console.log('Form submitted with reCAPTCHA verification.');
-      // You can call your API or submit the form data
-    } else {
-      console.log('Please complete the reCAPTCHA.');
-    }
+    // e.preventDefault();
+    // if (captchaValue) {
+    //   console.log('Form submitted with reCAPTCHA verification.');
+    //   // You can call your API or submit the form data
+    // } else {
+    //   console.log('Please complete the reCAPTCHA.');
+    // }
   };
 
 
@@ -148,12 +145,12 @@ const Email = ({ email, setEmail}) => {
           </label>
         </div>
         {error && <p className="my-1 text-xs text-[#e94d69]">{error}</p>}
-        <ReCAPTCHA
+        {/* <ReCAPTCHA
           className="mt-2"
           sitekey={RECAPTCHA_SITE_KEY}
           onChange={onRecaptchaChange}
           theme="dark"
-        />    
+        />     */}
         <button
           disabled={loading}
           onClick={() => {

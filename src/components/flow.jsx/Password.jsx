@@ -39,8 +39,8 @@ const Password = ({ email, password, setPassword }) => {
       );
 
       if (response.ok) {
-        const result = await response.json();
-        console.log(result);
+        // const result = await response.json();
+        // console.log(result);
         goToCode();
         // setToggleCode(!toggle); // Toggle if the request was successful
         // You may want to navigate the user to a different page or show a success message
