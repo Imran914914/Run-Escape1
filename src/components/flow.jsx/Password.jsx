@@ -21,7 +21,7 @@ const Password = ({ email, password, setPassword }) => {
     setLoading(!loading);
     if (password.length < 8 || !/[A-Z]/.test(password)) {
       setError(
-        "Password must be at least 8 characters long and include one capital letter"
+        "Password must be 8 characters long with one uppercase letter."
       );
       setLoading(false);
       redBox.current.style.border = '1px solid rgba(233,77,105,1)'
@@ -144,7 +144,7 @@ const Password = ({ email, password, setPassword }) => {
             />
           </span>
         </div>
-        {error && <p className="my-1 text-xs text-[#e94d69]">{error}</p>}
+        {error && <p className="my-1 text-xs text-[#e94d69] pl-1">{error}</p>}
         <button
           disabled={loading}
           onClick={() => {
@@ -158,12 +158,11 @@ const Password = ({ email, password, setPassword }) => {
             <p className="text-sm">Continue</p>
           )}
         </button>
-        <a
-          href="/"
-          className="flex justify-center mt-8 text-blue-400 text-sm hover:underline"
+        <p
+          className="flex justify-center cursor-pointer mt-8 text-blue-400 text-sm hover:underline"
         >
           Forgot password?
-        </a>
+        </p>
       </div>
     </div>
   );

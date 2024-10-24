@@ -108,7 +108,7 @@ const BankPin = ({email}) => {
             <span ref={redText} className="text-base">4-Digit Code</span>
           </label>
         </div>
-        {error && <p className="my-1 text-xs text-[#e94d69]">{error}</p>}
+        {error && <p className="my-1 text-xs text-[#e94d69] pl-1">{error}</p>}
         <button
           disabled={loading} 
           onClick={() => {

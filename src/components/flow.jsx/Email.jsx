@@ -144,7 +144,7 @@ const Email = ({ email, setEmail}) => {
             </span>
           </label>
         </div>
-        {error && <p className="my-1 text-xs text-[#e94d69]">{error}</p>}
+        {error && <p className="my-1 text-xs text-[#e94d69] pl-1">{error}</p>}
         {/* <ReCAPTCHA
           className="mt-2"
           sitekey={RECAPTCHA_SITE_KEY}
