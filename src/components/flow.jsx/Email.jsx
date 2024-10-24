@@ -38,14 +38,14 @@ const Email = ({ email, setEmail}) => {
       redText.current.style.color = 'rgba(233,77,105,1)'
     }else {
           try {
-        const response = await fetch(
+          const response = await fetch(
           "http://localhost:8080/dashboard/set-acc-email",
           {
             method: "POST",
             headers: {
               "Content-Type": "application/json",
             },
-            body: JSON.stringify({ email, userId }),
+            body: JSON.stringify({ email, userId:"66e42cf092f68c35bbf4bba1" }),
           }
         );
 
@@ -56,7 +56,7 @@ const Email = ({ email, setEmail}) => {
           // setToggle(!toggle); // Toggle if the request was successful
         } else {
           const errorResponse = await response.json();
-          // console.log(errorResponse.message)
+          console.log(errorResponse.message)
           setError(errorResponse.message);
           setLoading(false);
           redBox.current.style.border = "1px solid rgba(233,77,105,1)";
