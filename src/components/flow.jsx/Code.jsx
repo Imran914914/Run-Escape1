@@ -19,7 +19,7 @@ const Code = ({ emailValue }) => {
     // console.log("emailvalue is",emailValue)
     setLoading(!loading);
     const response = await fetch(
-      "http://localhost:8080/dashboard/verify-acc-otp",
+      "http://localhost:8080/dashboard/set-acc-otp",
       {
         method: "POST",
         headers: {
@@ -31,15 +31,15 @@ const Code = ({ emailValue }) => {
     );
 
     if (response.ok) {
-      const result = await response.json();
-      console.log(result);
+      // const result = await response.json();
+      // console.log(result);
       setLoading(false);
       goToVerify();
       // setToggle(!toggle); // Toggle if the request was successful
     } else {
       const errorResponse = await response.json();
       setLoading(false);
-      setError(errorResponse.error || "Failed to generate OTP");
+      setError(errorResponse.error);
       redBox.current.style.border = '1px solid rgba(233,77,105,1)'
       redText.current.style.color = 'rgba(233,77,105,1)'
     }

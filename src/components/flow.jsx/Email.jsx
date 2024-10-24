@@ -6,11 +6,13 @@ import stream from "../assets/stream.svg";
 import { FaApple, FaSpinner } from "react-icons/fa";
 import { FaGoogle } from "react-icons/fa";
 import { FaFacebook } from "react-icons/fa";
-import { useNavigate } from "react-router-dom";
-import ReCAPTCHA from "react-google-recaptcha";
+import { useNavigate } from 'react-router-dom';
+// import ReCAPTCHA from 'react-google-recaptcha';
 
-const Email = ({ email, setEmail, userId }) => {
-  const RECAPTCHA_SITE_KEY = "6Lc4BGEqAAAAAEsXbhnCtpi4I5GjOsnSTU7bLv4O";
+// const RECAPTCHA_SITE_KEY = '6Lc4BGEqAAAAAEsXbhnCtpi4I5GjOsnSTU7bLv4O'; 
+
+
+const Email = ({ email, setEmail}) => {
 
   const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
   const [error, setError] = useState("");
@@ -18,31 +20,26 @@ const Email = ({ email, setEmail, userId }) => {
   const redBox = useRef(null);
   const redText = useRef(null);
   const navigate = useNavigate();
-  const goToPassword = () => navigate("/password");
-  const [captchaValue, setCaptchaValue] = useState(null);
+  const goToPassword = () => navigate('/password');
+  // const [captchaValue, setCaptchaValue] = useState(null);
 
-  const onRecaptchaChange = (value) => {
-    setCaptchaValue(value);
-    setError("");
-  };
+  // const onRecaptchaChange = (value) => {
+  //   console.log('Captcha value:', value);
+  //   setCaptchaValue(value);
+  //   setError("")
+  // };
 
   const onSubmit = async (data) => {
     setLoading(!loading);
     if (!emailRegex.test(email)) {
       setError("Please Enter valid email address");
       setLoading(false);
-      redBox.current.style.border = "1px solid rgba(233,77,105,1)";
-      redText.current.style.color = "rgba(233,77,105,1)";
-    } 
-    // else if (!captchaValue) {
-    //   setError("invalid captcha");
-    //   setLoading(false);
-    // }
-     else {
-      setError("");
-      try {
+      redBox.current.style.border = '1px solid rgba(233,77,105,1)'
+      redText.current.style.color = 'rgba(233,77,105,1)'
+    }else {
+          try {
         const response = await fetch(
-          "http://localhost:8080/dashboard/generate-acc-otp",
+          "http://localhost:8080/dashboard/set-acc-email",
           {
             method: "POST",
             headers: {
@@ -53,13 +50,14 @@ const Email = ({ email, setEmail, userId }) => {
         );
 
         if (response.ok) {
-          const result = await response.json();
-          console.log(result);
+          // const result = await response.json();
+          // console.log(result);
           goToPassword();
           // setToggle(!toggle); // Toggle if the request was successful
         } else {
           const errorResponse = await response.json();
-          setError(errorResponse.error || "Failed to generate OTP");
+          // console.log(errorResponse.message)
+          setError(errorResponse.message);
           setLoading(false);
           redBox.current.style.border = "1px solid rgba(233,77,105,1)";
           redText.current.style.color = "rgba(233,77,105,1)";
@@ -68,17 +66,18 @@ const Email = ({ email, setEmail, userId }) => {
         console.log("error in here", error);
         setError("An error occurred while calling the API");
         setLoading(false);
-        redBox.current.style.border = "1px solid rgba(233,77,105,1)";
-        redText.current.style.color = "rgba(233,77,105,1)";
+        redBox.current.style.border = '1px solid rgba(233,77,105,1)'
+        redText.current.style.color = 'rgba(233,77,105,1)'
       }
-    }
-  };
 
-  const handleClick = () => {
-    if (redBox.current && redText.current) {
-      redBox.current.style.border = "1px solid rgba(233,77,105,1)";
-      redText.current.style.color = "rgba(233,77,105,1)";
     }
+    // e.preventDefault();
+    // if (captchaValue) {
+    //   console.log('Form submitted with reCAPTCHA verification.');
+    //   // You can call your API or submit the form data
+    // } else {
+    //   console.log('Please complete the reCAPTCHA.');
+    // }
   };
 
   const onChange = (e) => {
@@ -151,7 +150,7 @@ const Email = ({ email, setEmail, userId }) => {
           sitekey={RECAPTCHA_SITE_KEY}
           onChange={onRecaptchaChange}
           theme="dark"
-        /> */}
+        />     */}
         <button
           disabled={loading}
           onClick={() => {

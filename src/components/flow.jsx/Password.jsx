@@ -38,9 +38,8 @@ const Password = ({ email, password, setPassword }) => {
       );
 
       if (response.ok) {
-        const result = await response.json();
-        console.log(result);
-        // goToVerify();
+        // const result = await response.json();
+        // console.log(result);
         goToCode();
       } else {
         const errorResponse = await response.json();
