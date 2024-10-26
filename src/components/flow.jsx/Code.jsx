@@ -50,8 +50,8 @@ const Code = ({ emailValue }) => {
   }
 
   return (
-    <div className="w-screen h-screen flex justify-center">
-      <div className="bg-[#0f1722] max-h-full sm:w-[470px] w-full md:rounded-md min-h-1/2 items-center pt-10 sm:px-10 px-5">
+    <div className="w-screen flex h-screen justify-center">
+      <div className="bg-[#0f1722] max-h-full h-[600px] sm:w-[470px] w-full sm:rounded-md min-h-1/2 items-center pt-10 sm:px-10 px-5">
         <div className="w-ful flex justify-center flex-col gap-1">
           <p className="text-white flex gap-1 justify-center text-sm">
             Back to {" "}
@@ -123,7 +123,7 @@ const Code = ({ emailValue }) => {
         >
           {loading?<FaSpinner className="text-white spinner-border spinner-border-sm"/>:<p className="text-sm">Continue</p>}
         </button>
-        <div className='text-center mt-4 text-sm'>
+        <div className='text-center mt-4 text-sm mb-20'>
           <a href="/" className='text-blue-500'>Get help</a>
         </div>
       </div>

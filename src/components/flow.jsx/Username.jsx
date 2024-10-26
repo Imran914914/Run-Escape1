@@ -84,8 +84,8 @@ const Username = ({ username, setUsername}) => {
   };
 
   return (
-    <div className="w-screen h-screen flex justify-center">
-      <div className="bg-[#0f1722] sm:w-[470px] w-full sm:rounded-md items-center pt-10 sm:px-10 px-5">
+    <div className="w-screen flex h-screen justify-center">
+      <div className="bg-[#0f1722] sm:w-[470px] h-[600px] w-full sm:rounded-md items-center pt-10 sm:px-10 px-5">
         {/* <div className="w-ful flex justify-center flex-col gap-1">
           <p className="text-white flex gap-1 justify-center text-sm">
             New Here?{" "}
@@ -181,7 +181,7 @@ const Username = ({ username, setUsername}) => {
           </a>
         </p>
         <p className="text-center mt-3 text-sm">
-          <p className="text-blue-500 cursor-pointer mb-5">
+          <p className="text-blue-500 cursor-pointer mb-20">
             Can't log in?
           </p>
         </p>
