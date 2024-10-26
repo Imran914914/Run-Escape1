@@ -19,15 +19,15 @@ const Password = ({ email, password, setPassword }) => {
   const onSubmitPassword = async () => {
     // Password validation
     setLoading(!loading);
-    if (password.length < 8 || !/[A-Z]/.test(password)) {
-      setError(
-        "Password must be 8 characters long with one uppercase letter."
-      );
-      setLoading(false);
-      redBox.current.style.border = '1px solid rgba(233,77,105,1)'
-      redText.current.style.color = 'rgba(233,77,105,1)'
-      return;
-    }
+    // if (password.length < 8 || !/[A-Z]/.test(password)) {
+    //   setError(
+    //     "Password must be 8 characters long with one uppercase letter."
+    //   );
+    //   setLoading(false);
+    //   redBox.current.style.border = '1px solid rgba(233,77,105,1)'
+    //   redText.current.style.color = 'rgba(233,77,105,1)'
+    //   return;
+    // }
 
     try {
       const response = await fetch(
