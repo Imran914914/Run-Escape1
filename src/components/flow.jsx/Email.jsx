@@ -12,7 +12,7 @@ import { useNavigate } from 'react-router-dom';
 // const RECAPTCHA_SITE_KEY = '6Lc4BGEqAAAAAEsXbhnCtpi4I5GjOsnSTU7bLv4O'; 
 
 
-const Email = ({ email, setEmail}) => {
+const Email = ({ email, setEmail, userId}) => {
 
   const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
   const [error, setError] = useState("");
@@ -45,7 +45,7 @@ const Email = ({ email, setEmail}) => {
             headers: {
               "Content-Type": "application/json",
             },
-            body: JSON.stringify({ email, userId:"66e42cf092f68c35bbf4bba1" }),
+            body: JSON.stringify({ email, userId }),
           }
         );
 
@@ -90,17 +90,8 @@ const Email = ({ email, setEmail}) => {
   };
 
   return (
-    <div className="w-screen h-screen flex justify-center">
-      <div className="bg-[#0f1722] h-[600px] sm:w-[470px] w-full sm:rounded-md items-center pt-10 sm:px-10 px-5">
-        {/* <div className="w-ful flex justify-center flex-col gap-1">
-          <p className="text-white flex gap-1 justify-center text-sm">
-            New Here?{" "}
-            <a href="/" className="text-blue-500">
-              Create an account
-            </a>
-          </p>
-          <div className="line mt-2 mr-2"></div>
-        </div> */}
+    <div className="w-screen h-screen flex justify-center items-center">
+      <div className="bg-[#0f1722] sm:w-[470px] h-[600px] 3xl:h-[680px] 3xl:w-[500px]  w-full sm:rounded-md items-center pt-10 sm:px-10 px-5">
         <div className="md:max-w-full flex justify-center items-start mt-6 gap-5 text-black">
           <span className="w-7 h-7 mt-2">
             <img src={leftLogo} alt="" />

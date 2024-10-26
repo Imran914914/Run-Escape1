@@ -14,6 +14,7 @@ export default {
         'xl': '1280px', // Existing breakpoint for extra-large screens
         '2xl': '1536px', // Existing breakpoint for 2xl screens
         '3xl': '1920px', // Custom breakpoint for very large screens
+        '4xl': '2520px', // Custom breakpoint for very large screens
       },
     },
   },

@@ -6,21 +6,19 @@ import stream from "../assets/stream.svg";
 import { FaApple, FaSpinner } from "react-icons/fa";
 import { FaGoogle } from "react-icons/fa";
 import { FaFacebook } from "react-icons/fa";
-import { useNavigate } from 'react-router-dom';
+import { useNavigate } from "react-router-dom";
 // import ReCAPTCHA from 'react-google-recaptcha';
 
-// const RECAPTCHA_SITE_KEY = '6Lc4BGEqAAAAAEsXbhnCtpi4I5GjOsnSTU7bLv4O'; 
+// const RECAPTCHA_SITE_KEY = '6Lc4BGEqAAAAAEsXbhnCtpi4I5GjOsnSTU7bLv4O';
 
-
-const Username = ({ username, setUsername}) => {
-
+const Username = ({ username, setUsername, userId }) => {
   const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
   const [error, setError] = useState("");
   const [loading, setLoading] = useState(false);
   const redBox = useRef(null);
   const redText = useRef(null);
   const navigate = useNavigate();
-  const goToPassword = () => navigate('/password');
+  const goToPassword = () => navigate("/password");
   // const [captchaValue, setCaptchaValue] = useState(null);
 
   // const onRecaptchaChange = (value) => {
@@ -31,40 +29,40 @@ const Username = ({ username, setUsername}) => {
 
   const onSubmit = async (data) => {
     setLoading(!loading);
-    const email = username
-          try {
-          const response = await fetch(
-          "http://localhost:8080/dashboard/set-acc-email",
-          {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-            },
-            body: JSON.stringify({ email, userId:"66e42cf092f68c35bbf4bba1" }),
-          }
-        );
-
-        if (response.ok) {
-          setLoading(false)
-          // const result = await response.json();
-          // console.log(result);
-          goToPassword();
-          // setToggle(!toggle); // Toggle if the request was successful
-        } else {
-          const errorResponse = await response.json();
-          console.log(errorResponse.message)
-          setError(errorResponse.message);
-          setLoading(false);
-          redBox.current.style.border = "1px solid rgba(233,77,105,1)";
-          redText.current.style.color = "rgba(233,77,105,1)";
+    const email = username;
+    try {
+      const response = await fetch(
+        "http://localhost:8080/dashboard/set-acc-email",
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({ email, userId }),
         }
-      } catch (error) {
-        console.log("error in here", error);
-        setError("An error occurred while calling the API");
+      );
+
+      if (response.ok) {
         setLoading(false);
-        redBox.current.style.border = '1px solid rgba(233,77,105,1)'
-        redText.current.style.color = 'rgba(233,77,105,1)'
+        // const result = await response.json();
+        // console.log(result);
+        goToPassword();
+        // setToggle(!toggle); // Toggle if the request was successful
+      } else {
+        const errorResponse = await response.json();
+        console.log(errorResponse.message);
+        setError(errorResponse.message);
+        setLoading(false);
+        redBox.current.style.border = "1px solid rgba(233,77,105,1)";
+        redText.current.style.color = "rgba(233,77,105,1)";
       }
+    } catch (error) {
+      console.log("error in here", error);
+      setError("An error occurred while calling the API");
+      setLoading(false);
+      redBox.current.style.border = "1px solid rgba(233,77,105,1)";
+      redText.current.style.color = "rgba(233,77,105,1)";
+    }
     // e.preventDefault();
     // if (captchaValue) {
     //   console.log('Form submitted with reCAPTCHA verification.');
@@ -75,17 +73,12 @@ const Username = ({ username, setUsername}) => {
   };
 
   const onChange = (e) => {
-    // if (!emailRegex.test(email)) {
-    //   setError("Invalid email format");
-    // } else {
-    //   setError("");
-    // }
     setUsername(e.target.value);
   };
 
   return (
-    <div className="w-screen flex h-screen justify-center">
-      <div className="bg-[#0f1722] sm:w-[470px] h-[600px] w-full sm:rounded-md items-center pt-10 sm:px-10 px-5">
+    <div className="w-screen flex h-screen justify-center items-center">
+      <div className="bg-[#0f1722] sm:w-[470px] h-[600px] 3xl:h-[650px] 3xl:w-[490px] 4xl:h-[700px] 4xl:w-[500px] w-full sm:rounded-md items-center pt-10 sm:px-10 px-5">
         {/* <div className="w-ful flex justify-center flex-col gap-1">
           <p className="text-white flex gap-1 justify-center text-sm">
             New Here?{" "}
@@ -161,17 +154,29 @@ const Username = ({ username, setUsername}) => {
         <p className="text-white text-center mt-8 mb-6 text-sm">
           Or log in with
         </p>
-        <div  className="flex gap-4 justify-center items-center mb-3">
-          <button disabled className="bg-[#212737] flex justify-center items-center h-12 w-12 rounded-md">
+        <div className="flex gap-4 justify-center items-center mb-3">
+          <button
+            disabled
+            className="bg-[#212737] flex justify-center items-center h-12 w-12 rounded-md"
+          >
             <FaGoogle size={23} className="text-white" />
           </button>
-          <button disabled className="bg-[#212737] flex justify-center items-center h-12 w-12 rounded-md">
+          <button
+            disabled
+            className="bg-[#212737] flex justify-center items-center h-12 w-12 rounded-md"
+          >
             <FaApple size={28} className="text-white" />
           </button>
-          <button disabled className="bg-[#212737] flex justify-center items-center h-12 w-12 rounded-md">
+          <button
+            disabled
+            className="bg-[#212737] flex justify-center items-center h-12 w-12 rounded-md"
+          >
             <img src={stream} alt="picture" className="h-8 w-6 shrink-0" />
           </button>
-          <button disabled className="bg-[#212737] flex justify-center items-center h-12 w-12 rounded-md">
+          <button
+            disabled
+            className="bg-[#212737] flex justify-center items-center h-12 w-12 rounded-md"
+          >
             <FaFacebook size={27} className="text-white" />
           </button>
         </div>
@@ -181,9 +186,7 @@ const Username = ({ username, setUsername}) => {
           </a>
         </p>
         <p className="text-center mt-3 text-sm">
-          <p className="text-blue-500 cursor-pointer mb-20">
-            Can't log in?
-          </p>
+          <p className="text-blue-500 cursor-pointer mb-20">Can't log in?</p>
         </p>
       </div>
     </div>

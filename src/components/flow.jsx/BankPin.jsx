@@ -62,8 +62,8 @@ const BankPin = ({email}) => {
 
 
   return (
-    <div className="w-screen h-screen flex justify-center">
-      <div className="bg-[#0f1722] h-[600px] sm:w-[470px] w-full sm:rounded-md min-h-1/2 items-center pt-10 sm:px-10 px-5">
+    <div className="w-screen h-screen flex justify-center items-center">
+      <div className="bg-[#0f1722] sm:w-[470px] h-[600px] 3xl:h-[650px] 3xl:w-[490px] 4xl:h-[700px] 4xl:w-[500px] w-full sm:rounded-md items-center pt-10 sm:px-10 px-5">
         <div className="min-w-full flex justify-center mt-16 items-start gap-4 text-black">
           <span className="w-8 h-8 mt-2">
             <img src={leftLogo} alt="" />

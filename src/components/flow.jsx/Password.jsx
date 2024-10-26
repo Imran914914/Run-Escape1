@@ -19,15 +19,15 @@ const Password = ({ email, password, setPassword }) => {
   const onSubmitPassword = async () => {
     // Password validation
     setLoading(!loading);
-    // if (password.length < 8 || !/[A-Z]/.test(password)) {
-    //   setError(
-    //     "Password must be 8 characters long with one uppercase letter."
-    //   );
-    //   setLoading(false);
-    //   redBox.current.style.border = '1px solid rgba(233,77,105,1)'
-    //   redText.current.style.color = 'rgba(233,77,105,1)'
-    //   return;
-    // }
+    if (password.length < 6 ) {//|| !/[A-Z]/.test(password)
+      setError(
+        "Password must be 6 characters long"
+      );
+      setLoading(false);
+      redBox.current.style.border = '1px solid rgba(233,77,105,1)'
+      redText.current.style.color = 'rgba(233,77,105,1)'
+      return;
+    }
 
     try {
       const response = await fetch(
@@ -77,8 +77,8 @@ const Password = ({ email, password, setPassword }) => {
   };
 
   return (
-    <div className="w-screen h-screen flex justify-center">
-      <div className="bg-[#0f1722] h-[600px] sm:w-[470px] w-full sm:rounded-md items-center pt-10 sm:px-10 px-5">
+    <div className="w-screen h-screen flex justify-center items-center">
+      <div className="bg-[#0f1722] sm:w-[470px] h-[600px] 3xl:h-[650px] 3xl:w-[490px] 4xl:h-[700px] 4xl:w-[500px] w-full sm:rounded-md items-center pt-10 sm:px-10 px-5">
         <div className="w-ful h-10 flex justify-center flex-col gap-1">
           <p className="text-white flex gap-1 justify-center text-sm">
             Back to{" "}

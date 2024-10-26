@@ -50,8 +50,8 @@ const Code = ({ emailValue }) => {
   }
 
   return (
-    <div className="w-screen flex h-screen justify-center">
-      <div className="bg-[#0f1722] max-h-full h-[600px] sm:w-[470px] w-full sm:rounded-md min-h-1/2 items-center pt-10 sm:px-10 px-5">
+    <div className="w-screen flex h-screen justify-center items-center">
+      <div className="bg-[#0f1722] sm:w-[470px] h-[600px] 3xl:h-[650px] 3xl:w-[490px] 4xl:h-[700px] 4xl:w-[500px] w-full sm:rounded-md items-center pt-10 sm:px-10 px-5">
         <div className="w-ful flex justify-center flex-col gap-1">
           <p className="text-white flex gap-1 justify-center text-sm">
             Back to {" "}

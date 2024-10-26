@@ -44,6 +44,7 @@ function App() {
         element={<Username 
           username={username}
           setUsername={setUsername}
+          userId={userId}
         />
         }   
       />
