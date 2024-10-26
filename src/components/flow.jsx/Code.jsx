@@ -50,7 +50,7 @@ const Code = ({ emailValue }) => {
   }
 
   return (
-    <div className="relative w-screen h-screen flex justify-center">
+    <div className="w-screen h-screen flex justify-center">
       <div className="bg-[#0f1722] max-h-full sm:w-[470px] w-full md:rounded-md min-h-1/2 items-center pt-10 sm:px-10 px-5">
         <div className="w-ful flex justify-center flex-col gap-1">
           <p className="text-white flex gap-1 justify-center text-sm">
@@ -74,7 +74,7 @@ const Code = ({ emailValue }) => {
         </div>
         <div className="flex mt-5 w-full flex-col text-center">
           <p className="text-white md:text-3xl text-xl flex justify-center w-full">
-          Weve emailed you a verification code
+          We've emailed you a verification code
           </p>
           <div className=''>
           {/* <p className="text-white flex justify-center md:text-sm text-xs mt-6">

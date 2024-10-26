@@ -21,6 +21,10 @@ const router = createBrowserRouter([
         path: "bankPin",   // Verify route as a child
         element: <App />,
       },
+      {
+        path: "username",   // Verify route as a child
+        element: <App />,
+      },
     ],
   },
 ]);

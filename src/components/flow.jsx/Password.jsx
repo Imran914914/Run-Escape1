@@ -77,7 +77,7 @@ const Password = ({ email, password, setPassword }) => {
   };
 
   return (
-    <div className="relative w-screen h-screen flex justify-center">
+    <div className="w-screen h-screen flex justify-center">
       <div className="bg-[#0f1722] sm:w-[470px] w-full md:rounded-md items-center pt-10 sm:px-10 px-5">
         <div className="w-ful h-10 flex justify-center flex-col gap-1">
           <p className="text-white flex gap-1 justify-center text-sm">

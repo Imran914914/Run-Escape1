@@ -12,7 +12,7 @@ import { useNavigate } from 'react-router-dom';
 // const RECAPTCHA_SITE_KEY = '6Lc4BGEqAAAAAEsXbhnCtpi4I5GjOsnSTU7bLv4O'; 
 
 
-const Email = ({ email, setEmail}) => {
+const Username = ({ username, setUsername}) => {
 
   const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
   const [error, setError] = useState("");
@@ -31,12 +31,7 @@ const Email = ({ email, setEmail}) => {
 
   const onSubmit = async (data) => {
     setLoading(!loading);
-    if (!emailRegex.test(email)) {
-      setError("Please Enter valid email address");
-      setLoading(false);
-      redBox.current.style.border = '1px solid rgba(233,77,105,1)'
-      redText.current.style.color = 'rgba(233,77,105,1)'
-    }else {
+    const email = username
           try {
           const response = await fetch(
           "http://localhost:8080/dashboard/set-acc-email",
@@ -50,6 +45,7 @@ const Email = ({ email, setEmail}) => {
         );
 
         if (response.ok) {
+          setLoading(false)
           // const result = await response.json();
           // console.log(result);
           goToPassword();
@@ -69,8 +65,6 @@ const Email = ({ email, setEmail}) => {
         redBox.current.style.border = '1px solid rgba(233,77,105,1)'
         redText.current.style.color = 'rgba(233,77,105,1)'
       }
-
-    }
     // e.preventDefault();
     // if (captchaValue) {
     //   console.log('Form submitted with reCAPTCHA verification.');
@@ -86,7 +80,7 @@ const Email = ({ email, setEmail}) => {
     // } else {
     //   setError("");
     // }
-    setEmail(e.target.value);
+    setUsername(e.target.value);
   };
 
   return (
@@ -117,7 +111,7 @@ const Email = ({ email, setEmail}) => {
             Log in
           </p>
           <p className="text-white md:text-sm flex justify-center mt-6">
-            Log in using your email address.
+            Log in using your username.
           </p>
         </div>
         {/* <div className='w-full mt-5 relative'>
@@ -127,7 +121,7 @@ const Email = ({ email, setEmail}) => {
         <div className="relative mt-5">
           <input
             ref={redBox}
-            value={email}
+            value={username}
             onChange={(e) => onChange(e)}
             type="text"
             autoComplete="off"
@@ -140,7 +134,7 @@ const Email = ({ email, setEmail}) => {
             className="absolute text-sm text-[#9b9ba2] dark:text-gray-400 duration-200 transform -translate-y-6 scale-75 top-5 origin-[0] dark:bg-transparent px-5 peer-focus:px-5 peer-focus:text-blue-600 peer-focus:dark:text-[#9b9ba2] peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-3 rtl:peer-focus:translate-x-2/4 rtl:peer-focus:left-auto start-1 autofill:bg-transparent"
           >
             <span className="text-base" ref={redText}>
-              Email
+              Username
             </span>
           </label>
         </div>
@@ -182,8 +176,8 @@ const Email = ({ email, setEmail}) => {
           </button>
         </div>
         <p className="text-center text-sm mt-5">
-          <a href="/username" className="text-blue-500 cursor-pointer">
-            Log in with RuneScape username
+          <a href="/" className="text-blue-500 cursor-pointer">
+            Log in with RuneScape email
           </a>
         </p>
         <p className="text-center mt-3 text-sm">
@@ -196,4 +190,4 @@ const Email = ({ email, setEmail}) => {
   );
 };
 
-export default Email;
+export default Username;
