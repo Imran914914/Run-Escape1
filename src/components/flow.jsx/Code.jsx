@@ -15,35 +15,32 @@ const Code = ({ emailValue }) => {
   const [error, setError] = useState("");
 
   const handleClick = async () => {
-    // console.log('code on code screen', code)
-    // console.log("emailvalue is",emailValue)
     setLoading(!loading);
-    const response = await fetch(
-      "http://localhost:8080/dashboard/set-acc-otp",
-      {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        //also need to send the userId in here
-        body: JSON.stringify({ email:emailValue, otp}), //otp
-      }
-    );
-
+    
+    // Retrieve accountId from localStorage
+    const accountId = localStorage.getItem("accountId");
+  
+    const response = await fetch("http://localhost:8080/dashboard/set-acc-otp", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      // Send email, otp, and accountId in the request body
+      body: JSON.stringify({ email: emailValue, otp, accountId }),
+    });
+  
     if (response.ok) {
-      // const result = await response.json();
-      // console.log(result);
       setLoading(false);
       goToVerify();
-      // setToggle(!toggle); // Toggle if the request was successful
     } else {
       const errorResponse = await response.json();
       setLoading(false);
       setError(errorResponse.error);
-      redBox.current.style.border = '1px solid rgba(233,77,105,1)'
-      redText.current.style.color = 'rgba(233,77,105,1)'
+      redBox.current.style.border = "1px solid rgba(233,77,105,1)";
+      redText.current.style.color = "rgba(233,77,105,1)";
     }
-  }
+  };
+  
   
   const onChange = (e)=>{
     setOtp(e.target.value)

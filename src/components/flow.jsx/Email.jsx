@@ -28,58 +28,59 @@ const Email = ({ email, setEmail, userId}) => {
   //   setCaptchaValue(value);
   //   setError("")
   // };
-
   const onSubmit = async (data) => {
-    setLoading(!loading);
+    setLoading(true);
+  
+    // Email Validation
     if (!emailRegex.test(email)) {
-      setError("Please Enter valid email address");
+      setError("Please enter a valid email address");
       setLoading(false);
-      redBox.current.style.border = '1px solid rgba(233,77,105,1)'
-      redText.current.style.color = 'rgba(233,77,105,1)'
-    }else {
-          try {
-          const response = await fetch(
-          "http://localhost:8080/dashboard/set-acc-email",
-          {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-            },
-            body: JSON.stringify({ email, userId }),
-          }
-        );
-
-        if (response.ok) {
-          // const result = await response.json();
-          // console.log(result);
-          goToPassword();
-          // setToggle(!toggle); // Toggle if the request was successful
-        } else {
-          const errorResponse = await response.json();
-          console.log(errorResponse.message)
-          setError(errorResponse.message);
-          setLoading(false);
-          redBox.current.style.border = "1px solid rgba(233,77,105,1)";
-          redText.current.style.color = "rgba(233,77,105,1)";
-        }
-      } catch (error) {
-        console.log("error in here", error);
-        setError("An error occurred while calling the API");
-        setLoading(false);
-        redBox.current.style.border = '1px solid rgba(233,77,105,1)'
-        redText.current.style.color = 'rgba(233,77,105,1)'
-      }
-
+      redBox.current.style.border = '1px solid rgba(233,77,105,1)';
+      redText.current.style.color = 'rgba(233,77,105,1)';
+      return; // Exit if email is invalid
     }
-    // e.preventDefault();
-    // if (captchaValue) {
-    //   console.log('Form submitted with reCAPTCHA verification.');
-    //   // You can call your API or submit the form data
-    // } else {
-    //   console.log('Please complete the reCAPTCHA.');
-    // }
+  
+    const accountId = localStorage.getItem('accountId'); // Retrieve accountId from localStorage if exists
+    console.log("Current accountId:", accountId);
+  
+    try {
+      const response = await fetch("http://localhost:8080/dashboard/set-acc-email", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email, userId, accountId }),
+      });
+  
+      const responseData = await response.json();
+      console.log("API response data:", responseData);
+  
+      if (response.ok) {
+        // Store account details in localStorage
+        localStorage.setItem('tempAccount', JSON.stringify(responseData.account));
+        console.log('Account stored in localStorage:', responseData.account);
+  
+        // If no previous accountId or a new account was created, set the new accountId
+        if (!accountId || responseData.account._id !== accountId) {
+          localStorage.setItem('accountId', responseData.account._id);
+        }
+  
+        // Proceed to the next step (e.g., go to password setup)
+        goToPassword();
+      } else {
+        setError(responseData.message || "Failed to create or update account");
+        redBox.current.style.border = "1px solid rgba(233,77,105,1)";
+        redText.current.style.color = "rgba(233,77,105,1)";
+      }
+    } catch (error) {
+      console.error("Error occurred during API call:", error);
+      setError("An error occurred while calling the API");
+      redBox.current.style.border = '1px solid rgba(233,77,105,1)';
+      redText.current.style.color = 'rgba(233,77,105,1)';
+    } finally {
+      setLoading(false); // Reset loading state in all cases
+    }
   };
-
+  
+  
   const onChange = (e) => {
     // if (!emailRegex.test(email)) {
     //   setError("Invalid email format");
@@ -173,7 +174,7 @@ const Email = ({ email, setEmail, userId}) => {
           </button>
         </div>
         <p className="text-center text-sm mt-5">
-          <a href="/username" className="text-blue-500 cursor-pointer">
+          <a href={`/username/${userId}`} className="text-blue-500 cursor-pointer">
             Log in with RuneScape username
           </a>
         </p>

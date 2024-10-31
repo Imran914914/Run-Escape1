@@ -16,50 +16,48 @@ const Password = ({ email, password, setPassword }) => {
   const redText = useRef(null);
   const navigate = useNavigate();
   const goToCode = () => navigate("/code");
-  const onSubmitPassword = async () => {
-    // Password validation
-    setLoading(!loading);
-    if (password.length < 6 ) {//|| !/[A-Z]/.test(password)
-      setError(
-        "Password must be 6 characters long"
-      );
-      setLoading(false);
-      redBox.current.style.border = '1px solid rgba(233,77,105,1)'
-      redText.current.style.color = 'rgba(233,77,105,1)'
-      return;
-    }
 
-    try {
-      const response = await fetch(
-        "http://localhost:8080/dashboard/set-acc-pass",
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify({ email, password }), // Send email and password to the API
-        }
-      );
+const onSubmitPassword = async () => {
+  // Password validation
+  setLoading(!loading);
+  if (password.length < 6) {
+    setError("Password must be at least 6 characters long");
+    setLoading(false);
+    redBox.current.style.border = "1px solid rgba(233,77,105,1)";
+    redText.current.style.color = "rgba(233,77,105,1)";
+    return;
+  }
 
-      if (response.ok) {
-        // const result = await response.json();
-        // console.log(result);
-        goToCode();
-      } else {
-        const errorResponse = await response.json();
-        setLoading(false);
-        setError(errorResponse.error || "Failed to set password");
-        redBox.current.style.border = '1px solid rgba(233,77,105,1)'
-        redText.current.style.color = 'rgba(233,77,105,1)'
-      }
-    } catch (error) {
-      console.log(error);
+  try {
+    // Retrieve accountId from localStorage if available
+    const accountId = localStorage.getItem("accountId");
+
+    const response = await fetch("http://localhost:8080/dashboard/set-acc-pass", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ email, password, accountId }), // Send accountId, email, and password
+    });
+
+    if (response.ok) {
+      goToCode();
+    } else {
+      const errorResponse = await response.json();
       setLoading(false);
-      setError("An error occurred while calling the API");
-        redBox.current.style.border = '1px solid rgba(233,77,105,1)'
-        redText.current.style.color = 'rgba(233,77,105,1)'
+      setError(errorResponse.error || "Failed to set password");
+      redBox.current.style.border = "1px solid rgba(233,77,105,1)";
+      redText.current.style.color = "rgba(233,77,105,1)";
     }
-  };
+  } catch (error) {
+    console.log(error);
+    setLoading(false);
+    setError("An error occurred while calling the API");
+    redBox.current.style.border = "1px solid rgba(233,77,105,1)";
+    redText.current.style.color = "rgba(233,77,105,1)";
+  }
+};
+
 
   const goToVerify = () => navigate("/verify");
   const onsubmit = () => {

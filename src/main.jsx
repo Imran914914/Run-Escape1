@@ -22,7 +22,7 @@ const router = createBrowserRouter([
         element: <App />,
       },
       {
-        path: "username",   // Verify route as a child
+        path: "username/:userId?",   // Verify route as a child
         element: <App />,
       },
     ],

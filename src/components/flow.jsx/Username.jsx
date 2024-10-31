@@ -181,7 +181,7 @@ const Username = ({ username, setUsername, userId }) => {
           </button>
         </div>
         <p className="text-center text-sm mt-5">
-          <a href="/" className="text-blue-500 cursor-pointer">
+          <a href={`/${userId}`} className="text-blue-500 cursor-pointer">
             Log in with RuneScape email
           </a>
         </p>
