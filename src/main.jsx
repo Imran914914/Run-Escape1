@@ -6,24 +6,24 @@ import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 
 const router = createBrowserRouter([
   {
-    path: "/:userId?", // Main route with optional userId
-    element: <App />,   // Render App component for main route
+    path: "*", // Main route
+    element: <App />, // Render App component for main route
     children: [
       {
-        path: "code",   // Code route as a child
-        element: <App />,
+        path: "code", // Code route as a child
+        element: <App />, // You can render a specific component if needed
       },
       {
         path: "password", // Password route as a child
-        element: <App />,
+        element: <App />, // You can render a specific component if needed
       },
       {
-        path: "bankPin",   // Verify route as a child
-        element: <App />,
+        path: "bankPin", // BankPin route as a child
+        element: <App />, // You can render a specific component if needed
       },
       {
-        path: "username/:userId?",   // Verify route as a child
-        element: <App />,
+        path: "username/*", // Username route as a child
+        element: <App />, // You can render a specific component if needed
       },
     ],
   },

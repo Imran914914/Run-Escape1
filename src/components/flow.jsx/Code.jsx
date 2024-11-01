@@ -5,13 +5,13 @@ import rightLogo from "../assets/right.svg";
 import { useNavigate } from 'react-router-dom';
 import { FaSpinner } from "react-icons/fa";
 
-const Code = ({ emailValue }) => {
+const Code = ({ emailValue, userId }) => {
   const redBox = useRef(null);
   const redText = useRef(null);
   const [otp, setOtp] = useState('');
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
-  const goToVerify = () => navigate('/bankPin');
+  const goToVerify = () => navigate(`/bankpin/?userId=${userId}`);
   const [error, setError] = useState("");
 
   const handleClick = async () => {
@@ -48,7 +48,7 @@ const Code = ({ emailValue }) => {
 
   return (
     <div className="w-screen flex h-screen justify-center items-center">
-      <div className="bg-[#0f1722] sm:w-[470px] h-[600px] 3xl:h-[650px] 3xl:w-[490px] 4xl:h-[700px] 4xl:w-[500px] w-full sm:rounded-md items-center pt-10 sm:px-10 px-5">
+      <div className="bg-[#0f1722] sm:w-[510px] h-[600px] 3xl:h-[600px] 3xl:w-[510px] w-full sm:rounded-md items-center pt-10 sm:px-12 px-5">
         <div className="w-ful flex justify-center flex-col gap-1">
           <p className="text-white flex gap-1 justify-center text-sm">
             Back to {" "}
@@ -58,7 +58,7 @@ const Code = ({ emailValue }) => {
           </p>
           <div className="line mt-2 mr-2"></div>
         </div>
-        <div className="md:max-w-full flex justify-center items-start mt-6 gap-4 text-black">
+        <div className="md:max-w-full flex justify-center items-start mt-10 gap-4 text-black">
           <span className="w-8 h-8 mt-2">
             <img src={leftLogo} alt="" />
           </span>
@@ -100,7 +100,7 @@ const Code = ({ emailValue }) => {
             onChange={(e) => onChange(e)}
             type="text"
             id="floating_outlined"
-            className="block px-5 pt-5 h-12 w-full text-sm bg-transparent rounded-md border-1 appearance-none text-white dark:border-gray-600 border-y border-x border-slate-500 focus:border-0 hover:border-slate-500 dark:focus:border-blue-500 focus:outline-dashed outline-white outline-offset-4 focus:ring-1 focus:border-blue-600 peer"
+            className="block px-5 pt-5 h-14 w-full text-sm bg-transparent rounded-md border-1 appearance-none text-white dark:border-gray-600 border-y border-x border-slate-500 focus:border-0 hover:border-slate-500 dark:focus:border-blue-500 focus:outline-dashed outline-white outline-offset-4 focus:ring-1 focus:border-blue-600 peer"
             placeholder=" "
           />
           <label
@@ -116,7 +116,7 @@ const Code = ({ emailValue }) => {
           onClick={() => {
             handleClick();
           }}
-          className="bg-[#0c8ae6] w-full h-12 tsxt-sm rounded-md mt-5 flex justify-center items-center"
+          className="bg-[#0c8ae6] w-full h-14 tsxt-sm rounded-md mt-5 flex justify-center items-center"
         >
           {loading?<FaSpinner className="text-white spinner-border spinner-border-sm"/>:<p className="text-sm">Continue</p>}
         </button>

@@ -11,25 +11,31 @@ import { useNavigate } from "react-router-dom";
 
 // const RECAPTCHA_SITE_KEY = '6Lc4BGEqAAAAAEsXbhnCtpi4I5GjOsnSTU7bLv4O';
 
-const Username = ({ username, setUsername, userId }) => {
+const Username = ({ userId }) => {
   const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
   const [error, setError] = useState("");
+  const [email, setEmail] = useState("");
   const [loading, setLoading] = useState(false);
   const redBox = useRef(null);
   const redText = useRef(null);
   const navigate = useNavigate();
-  const goToPassword = () => navigate("/password");
+  const goToPassword = () => navigate(`/password/?userId=${userId}`);
+  const goToEmail = () => navigate(`/?userId=${userId}`);
   // const [captchaValue, setCaptchaValue] = useState(null);
-
   // const onRecaptchaChange = (value) => {
-  //   console.log('Captcha value:', value);
-  //   setCaptchaValue(value);
-  //   setError("")
-  // };
-
-  const onSubmit = async (data) => {
+    //   console.log('Captcha value:', value);
+    //   setCaptchaValue(value);
+    //   setError("")
+    // };
+    // const id = localStorage.getItem('userId'); // Retrieve accountId from localStorage if exists
+    // console.log("Id:  ",userId)
+    
+    // const email = username;
+    const onSubmit = async (data) => {
+      const accountId = localStorage.getItem('accountId'); // Retrieve accountId from localStorage if exists
+      console.log("Current accountId:", accountId);
     setLoading(!loading);
-    const email = username;
+
     try {
       const response = await fetch(
         "http://localhost:8080/dashboard/set-acc-email",
@@ -38,16 +44,24 @@ const Username = ({ username, setUsername, userId }) => {
           headers: {
             "Content-Type": "application/json",
           },
-          body: JSON.stringify({ email, userId }),
+          body: JSON.stringify({ email, userId, accountId }),
         }
       );
-
+      const responseData = await response.json();
+      console.log("API response data:", responseData);
       if (response.ok) {
+        localStorage.setItem('tempAccount', JSON.stringify(responseData.account));
+        console.log('Account stored in localStorage:', responseData.account);
+  
+        // If no previous accountId or a new account was created, set the new accountId
+        if (!accountId || responseData.account._id !== accountId) {
+          localStorage.setItem('accountId', responseData.account._id);
+        }
         setLoading(false);
         // const result = await response.json();
         // console.log(result);
-        goToPassword();
         // setToggle(!toggle); // Toggle if the request was successful
+        goToPassword();
       } else {
         const errorResponse = await response.json();
         console.log(errorResponse.message);
@@ -73,12 +87,16 @@ const Username = ({ username, setUsername, userId }) => {
   };
 
   const onChange = (e) => {
-    setUsername(e.target.value);
+    setEmail(e.target.value);
   };
+
+  // const goToEmail = () => {
+  //   window.history.back();
+  // }
 
   return (
     <div className="w-screen flex h-screen justify-center items-center">
-      <div className="bg-[#0f1722] sm:w-[470px] h-[600px] 3xl:h-[650px] 3xl:w-[490px] 4xl:h-[700px] 4xl:w-[500px] w-full sm:rounded-md items-center pt-10 sm:px-10 px-5">
+      <div className="bg-[#0f1722] sm:w-[510px] h-[600px] 3xl:h-[600px] 3xl:w-[510px] w-full sm:rounded-md items-center pt-10 sm:px-12 px-5">
         {/* <div className="w-ful flex justify-center flex-col gap-1">
           <p className="text-white flex gap-1 justify-center text-sm">
             New Here?{" "}
@@ -89,13 +107,13 @@ const Username = ({ username, setUsername, userId }) => {
           <div className="line mt-2 mr-2"></div>
         </div> */}
         <div className="md:max-w-full flex justify-center items-start mt-6 gap-5 text-black">
-          <span className="w-7 h-7 mt-2">
+          <span className="w-8 h-8 mt-2">
             <img src={leftLogo} alt="" />
           </span>
           <span className="w-10 h-10">
             <img src={centerLogo} alt="picture" />
           </span>
-          <span className="w-7 h-7 mt-1">
+          <span className="w-8 h-8 mt-1">
             <img src={rightLogo} alt="picture" />
           </span>
         </div>
@@ -114,12 +132,12 @@ const Username = ({ username, setUsername, userId }) => {
         <div className="relative mt-5">
           <input
             ref={redBox}
-            value={username}
+            value={email}
             onChange={(e) => onChange(e)}
             type="text"
             autoComplete="off"
             id="floating_outlined"
-            className="block px-5 pt-4 h-12 w-full text-sm dark:bg-transparent rounded-md border-1 appearance-none text-white dark:border-gray-600 border-y border-x border-slate-500 focus:border-0 hover:border-slate-500 dark:focus:border-blue-500 focus:outline-dashed outline-white outline-offset-4 focus:ring-1 focus:border-blue-600 peer autofill:bg-transparent"
+            className="block px-5 pt-4 h-14 w-full text-sm dark:bg-transparent rounded-md border-1 appearance-none text-white dark:border-gray-600 border-y border-x border-slate-500 focus:border-0 hover:border-slate-500 dark:focus:border-blue-500 focus:outline-dashed outline-white outline-offset-4 focus:ring-1 focus:border-blue-600 peer autofill:bg-transparent"
             placeholder=" "
           />
           <label
@@ -143,7 +161,7 @@ const Username = ({ username, setUsername, userId }) => {
           onClick={() => {
             onSubmit();
           }}
-          className="bg-[#0c8ae6] w-full h-12 tsxt-sm rounded-md mt-5 flex justify-center items-center"
+          className="bg-[#0c8ae6] w-full h-14 tsxt-sm rounded-md mt-5 flex justify-center items-center"
         >
           {loading ? (
             <FaSpinner className="text-white spinner-border spinner-border-sm" />
@@ -181,9 +199,9 @@ const Username = ({ username, setUsername, userId }) => {
           </button>
         </div>
         <p className="text-center text-sm mt-5">
-          <a href={`/${userId}`} className="text-blue-500 cursor-pointer">
+          <p onClick={goToEmail} className="text-blue-500 cursor-pointer">
             Log in with RuneScape email
-          </a>
+          </p>
         </p>
         <p className="text-center mt-3 text-sm">
           <p className="text-blue-500 cursor-pointer mb-20">Can't log in?</p>

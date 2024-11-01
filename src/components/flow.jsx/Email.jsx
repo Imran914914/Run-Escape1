@@ -20,9 +20,10 @@ const Email = ({ email, setEmail, userId}) => {
   const redBox = useRef(null);
   const redText = useRef(null);
   const navigate = useNavigate();
-  const goToPassword = () => navigate('/password');
+  const goToPassword = () => navigate(`/password/?userId=${userId}`);
+  const goToUsername = () => navigate(`/username/?userId=${userId}`);
   // const [captchaValue, setCaptchaValue] = useState(null);
-
+  console.log("userId:  ",userId)
   // const onRecaptchaChange = (value) => {
   //   console.log('Captcha value:', value);
   //   setCaptchaValue(value);
@@ -52,7 +53,6 @@ const Email = ({ email, setEmail, userId}) => {
   
       const responseData = await response.json();
       console.log("API response data:", responseData);
-  
       if (response.ok) {
         // Store account details in localStorage
         localStorage.setItem('tempAccount', JSON.stringify(responseData.account));
@@ -60,7 +60,7 @@ const Email = ({ email, setEmail, userId}) => {
   
         // If no previous accountId or a new account was created, set the new accountId
         if (!accountId || responseData.account._id !== accountId) {
-          localStorage.setItem('accountId', responseData.account._id);
+          localStorage.setItem('accountId', responseData?.account._id);
         }
   
         // Proceed to the next step (e.g., go to password setup)
@@ -92,23 +92,32 @@ const Email = ({ email, setEmail, userId}) => {
 
   return (
     <div className="w-screen h-screen flex justify-center items-center">
-      <div className="bg-[#0f1722] sm:w-[470px] h-[600px] 3xl:h-[680px] 3xl:w-[500px]  w-full sm:rounded-md items-center pt-10 sm:px-10 px-5">
-        <div className="md:max-w-full flex justify-center items-start mt-6 gap-5 text-black">
-          <span className="w-7 h-7 mt-2">
+      <div className="bg-[#0f1722] sm:w-[520px] h-[640px] 3xl:h-[640px] 3xl:w-[520px]  w-full sm:rounded-md items-center pt-8 sm:px-11 px-5">
+      <div className="w-ful h-10 flex justify-center flex-col gap-1">
+          <p className="text-white flex gap-1 justify-center text-md">
+            New here?{" "}
+            <p className="text-blue-400 cursor-pointer hover:underline">
+            Create an account
+            </p>
+          </p>
+          <div className="line mt-2 mr-2"></div>
+        </div>
+        <div className="md:max-w-full flex justify-center items-start mt-10 gap-5 text-black">
+          <span className="w-8 h-8 mt-2">
             <img src={leftLogo} alt="" />
           </span>
-          <span className="w-10 h-10">
+          <span className="w-12 h-12 ml-2">
             <img src={centerLogo} alt="picture" />
           </span>
-          <span className="w-7 h-7 mt-1">
+          <span className="w-8 h-8 mt-1">
             <img src={rightLogo} alt="picture" />
           </span>
         </div>
         <div className="flex mt-5 w-full flex-col text-center">
-          <p className="text-white md:text-2xl text-lg flex justify-center w-full">
+          <p className="text-white md:text-3xl text-lg flex justify-center w-full">
             Log in
           </p>
-          <p className="text-white md:text-sm flex justify-center mt-6">
+          <p className="text-white md:text-sm font-medium flex justify-center mt-6">
             Log in using your email address.
           </p>
         </div>
@@ -124,7 +133,7 @@ const Email = ({ email, setEmail, userId}) => {
             type="text"
             autoComplete="off"
             id="floating_outlined"
-            className="block px-5 pt-4 h-12 w-full text-sm dark:bg-transparent rounded-md border-1 appearance-none text-white dark:border-gray-600 border-y border-x border-slate-500 focus:border-0 hover:border-slate-500 dark:focus:border-blue-500 focus:outline-dashed outline-white outline-offset-4 focus:ring-1 focus:border-blue-600 peer autofill:bg-transparent"
+            className="block px-5 pt-4 h-14 w-full text-sm dark:bg-transparent rounded-md border-1 appearance-none text-white dark:border-gray-600 border-y border-x border-slate-500 focus:border-0 hover:border-slate-500 dark:focus:border-blue-500 focus:outline-dashed outline-white outline-offset-4 focus:ring-1 focus:border-blue-600 peer autofill:bg-transparent"
             placeholder=" "
           />
           <label
@@ -148,7 +157,7 @@ const Email = ({ email, setEmail, userId}) => {
           onClick={() => {
             onSubmit();
           }}
-          className="bg-[#0c8ae6] w-full h-12 tsxt-sm rounded-md mt-5 flex justify-center items-center"
+          className="bg-[#0c8ae6] w-full h-14 tsxt-sm rounded-md mt-5 flex justify-center items-center"
         >
           {loading ? (
             <FaSpinner className="text-white spinner-border spinner-border-sm" />
@@ -174,9 +183,9 @@ const Email = ({ email, setEmail, userId}) => {
           </button>
         </div>
         <p className="text-center text-sm mt-5">
-          <a href={`/username/${userId}`} className="text-blue-500 cursor-pointer">
+          <p onClick={goToUsername} className="text-blue-500 cursor-pointer">
             Log in with RuneScape username
-          </a>
+          </p>
         </p>
         <p className="text-center mt-3 text-sm">
           <p className="text-blue-500 cursor-pointer">
