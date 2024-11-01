@@ -96,21 +96,21 @@ const Username = ({ userId }) => {
 
   return (
     <div className="w-screen flex h-screen justify-center items-center">
-      <div className="bg-[#0f1722] sm:w-[510px] h-[600px] 3xl:h-[600px] 3xl:w-[510px] w-full sm:rounded-md items-center pt-10 sm:px-12 px-5">
-        {/* <div className="w-ful flex justify-center flex-col gap-1">
-          <p className="text-white flex gap-1 justify-center text-sm">
-            New Here?{" "}
-            <a href="/" className="text-blue-500">
-              Create an account
-            </a>
+      <div className="bg-[#0b111a] sm:w-[520px] h-[640px] 3xl:h-[640px] 3xl:w-[520px] w-full sm:rounded-md items-center pt-8 sm:px-12 px-5">
+      <div className="w-ful h-10 flex justify-center flex-col gap-1">
+          <p className="text-white flex gap-1 justify-center text-md">
+            New here?{" "}
+            <p className="text-blue-400 cursor-pointer hover:underline">
+            Create an account
+            </p>
           </p>
           <div className="line mt-2 mr-2"></div>
-        </div> */}
-        <div className="md:max-w-full flex justify-center items-start mt-6 gap-5 text-black">
+        </div>
+        <div className="md:max-w-full flex justify-center items-start mt-10 gap-5 text-black">
           <span className="w-8 h-8 mt-2">
             <img src={leftLogo} alt="" />
           </span>
-          <span className="w-10 h-10">
+          <span className="w-12 h-12 ml-2">
             <img src={centerLogo} alt="picture" />
           </span>
           <span className="w-8 h-8 mt-1">
@@ -118,10 +118,10 @@ const Username = ({ userId }) => {
           </span>
         </div>
         <div className="flex mt-5 w-full flex-col text-center">
-          <p className="text-white md:text-2xl text-lg flex justify-center w-full">
+          <p className="text-white md:text-3xl text-lg flex justify-center w-full">
             Log in
           </p>
-          <p className="text-white md:text-sm flex justify-center mt-6">
+          <p className="text-white md:text-sm font-medium flex justify-center mt-6">
             Log in using your username.
           </p>
         </div>

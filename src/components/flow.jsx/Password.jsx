@@ -76,21 +76,21 @@ const onSubmitPassword = async () => {
 
   return (
     <div className="w-screen h-screen flex justify-center items-center">
-      <div className="bg-[#0f1722] sm:w-[510px] h-[600px] 3xl:h-[600px] 3xl:w-[510px] w-full sm:rounded-md items-center pt-10 sm:px-12 px-5">
-        <div className="w-ful h-10 flex justify-center flex-col gap-1">
-          <p className="text-white flex gap-1 justify-center text-sm">
+      <div className="bg-[#0b111a] sm:w-[520px] h-[640px] 3xl:h-[640px] 3xl:w-[520px]  w-full sm:rounded-md items-center pt-8 sm:px-12 px-5">
+      <div className="w-ful h-10 flex justify-center flex-col gap-1">
+          <p className="text-white flex gap-1 justify-center text-md">
             Back to{" "}
-            <a href="/" className="text-blue-500">
-              Log In
+            <a href={`/?userId=${userId}`} className="text-blue-400 cursor-pointer hover:underline">
+            Log In
             </a>
           </p>
           <div className="line mt-2 mr-2"></div>
         </div>
-        <div className="w-full flex justify-center items-start mt-10 gap-4 text-black">
+        <div className="md:max-w-full flex justify-center items-start mt-10 gap-5 text-black">
           <span className="w-8 h-8 mt-2">
             <img src={leftLogo} alt="" />
           </span>
-          <span className="">
+          <span className="w-12 h-12 ml-2">
             <img src={centerLogo} alt="picture" />
           </span>
           <span className="w-8 h-8 mt-1">
@@ -120,9 +120,9 @@ const onSubmitPassword = async () => {
 
           <label
             htmlFor="floating_outlined"
-            className="absolute text-sm text-[#9b9ba2] dark:text-gray-400 duration-200 transform -translate-y-4 scale-75 top-5 z-10 origin-[0] bg-white dark:bg-[#0f1722] px-2 peer-focus:px-2 peer-focus:text-blue-600 peer-focus:dark:text-[#9b9ba2] peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-2 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto start-1"
+            className="absolute text-sm text-[#9b9ba2] dark:text-gray-400 duration-200 transform -translate-y-6 scale-75 top-5 origin-[0] dark:bg-transparent px-5 peer-focus:px-5 peer-focus:text-blue-600 peer-focus:dark:text-[#9b9ba2] peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-3 rtl:peer-focus:translate-x-2/4 rtl:peer-focus:left-auto start-1 autofill:bg-transparent"
           >
-            <span className="text-base pl-3.5" ref={redText}>
+            <span className="text-base" ref={redText}>
               Password
             </span>
           </label>

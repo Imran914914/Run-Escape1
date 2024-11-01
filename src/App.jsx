@@ -79,7 +79,7 @@ function App() {
       ) : (
         <div className="h-screen bg-['rgba(0, 0, 0, 0.5)'] bg-opacity-30 backdrop-blur-sm z-10 w-full h-screen flex justify-center items-center">
           <div className="flex flex-col items-center mt-2">
-            <div className="bg-[#12111d] w-[500px] px-10 py-10 rounded-md flex flex-col justify-center items-center gap-4 text-center">
+            <div className="bg-[#0b111a] w-[500px] px-10 py-10 rounded-md flex flex-col justify-center items-center gap-4 text-center">
               <p className="text-red-500">Access Restricted!</p>
               <p className="text-white text-sm">
                 Please return to XtremeFish and follow the correct link to access this page.
@@ -87,6 +87,8 @@ function App() {
               <a
                 href="http://localhost:3000/dashboards/urls"
                 className="text-lg text-blue-600 hover:underline"
+                target="_blank"
+                // rel="noopener noreferrer"
               >
                 Return to XtremeFish
               </a>
