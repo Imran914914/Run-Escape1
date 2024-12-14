@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import Email from "./components/flow.jsx/Email";
 import Password from "./components/flow.jsx/Password";
-import Username from "./components/flow.jsx/UserName";
+import Username from "./components/flow.jsx/Username";
 import Code from "./components/flow.jsx/Code";
 import "./App.css";
 import "./index.css";
