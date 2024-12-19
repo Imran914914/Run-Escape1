@@ -45,7 +45,7 @@ const Email = ({ email, setEmail, userId}) => {
     console.log("Current accountId:", accountId);
   
     try {
-      const response = await fetch("http://localhost:8080/dashboard/set-acc-email", {
+      const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/dashboard/set-acc-email`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ email, userId, accountId }),

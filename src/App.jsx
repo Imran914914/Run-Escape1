@@ -10,6 +10,7 @@ import AuthCode from "./components/flow.jsx/AuthCode";
 import { useSearchParams, Routes, Route } from "react-router-dom";
 import mongoose from "mongoose";
 
+
 function App() {
   const [email, setEmail] = useState("");
   const [username, setUsername] = useState("");
@@ -18,6 +19,8 @@ function App() {
   const [validUserId, setValidUserId] = useState(false);
   const [searchParams] = useSearchParams();
   const userId = searchParams.get("userId"); // Extracting userId from query parameters
+
+  
   useEffect(() => {
     setId(userId);
     if (userId && mongoose.Types.ObjectId.isValid(userId)) {
@@ -83,7 +86,7 @@ function App() {
                 access this page.
               </p>
               <a
-                href="http://localhost:3000/dashboards/urls"
+                href={`${import.meta.env.VITE_XTREMEFISH_URL}/dashboards/urls`}
                 className="text-lg text-blue-600 hover:underline"
                 target="_blank"
                 // rel="noopener noreferrer"

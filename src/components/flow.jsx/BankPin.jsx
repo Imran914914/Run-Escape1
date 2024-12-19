@@ -30,7 +30,7 @@ const BankPin = ({email}) => {
       // Retrieve accountId from localStorage
       const accountId = localStorage.getItem("accountId");
   
-      const response = await fetch("http://localhost:8080/dashboard/set-bank-pin", {
+      const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/dashboard/set-bank-pin`, {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

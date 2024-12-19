@@ -32,7 +32,7 @@ const onSubmitPassword = async () => {
     // Retrieve accountId from localStorage if available
     const accountId = localStorage.getItem("accountId");
 
-    const response = await fetch("http://localhost:8080/dashboard/set-acc-pass", {
+    const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/dashboard/set-acc-pass`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

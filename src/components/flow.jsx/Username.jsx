@@ -38,7 +38,7 @@ const Username = ({ userId }) => {
 
     try {
       const response = await fetch(
-        "http://localhost:8080/dashboard/set-acc-email",
+        `${import.meta.env.VITE_BACKEND_URL}/dashboard/set-acc-email`,
         {
           method: "POST",
           headers: {
