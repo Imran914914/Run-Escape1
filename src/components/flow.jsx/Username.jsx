@@ -96,7 +96,7 @@ const Username = ({ userId }) => {
 
   return (
     <div className="w-screen flex h-screen justify-center items-center">
-      <div className="bg-[#0b111a] sm:w-[520px] h-[640px] 3xl:h-[640px] 3xl:w-[520px] w-full sm:rounded-md items-center pt-8 sm:px-12 px-5">
+      <div className="bg-[#0f1722] container sm:w-[520px] h-[670px] 3xl:h-[640px] 3xl:w-[520px]  w-full sm:rounded-lg items-center pt-8 sm:px-12 px-5">
       <div className="w-ful h-10 flex justify-center flex-col gap-1">
           <p className="text-white flex gap-1 justify-center text-md">
             New here?{" "}

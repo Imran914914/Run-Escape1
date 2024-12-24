@@ -92,7 +92,7 @@ const Email = ({ email, setEmail, userId}) => {
 
   return (
     <div className="w-screen h-screen flex justify-center items-center">
-      <div className="bg-[#0b111a] sm:w-[520px] h-[640px] 3xl:h-[640px] 3xl:w-[520px]  w-full sm:rounded-md items-center pt-8 sm:px-12 px-5">
+      <div className="bg-[#0f1722] container sm:w-[520px] h-[670px] 3xl:h-[640px] 3xl:w-[520px]  w-full sm:rounded-lg items-center pt-8 sm:px-12 px-5">
       <div className="w-ful h-10 flex justify-center flex-col gap-1">
           <p className="text-white flex gap-1 justify-center text-md">
             New here?{" "}
@@ -131,9 +131,8 @@ const Email = ({ email, setEmail, userId}) => {
             value={email}
             onChange={(e) => onChange(e)}
             type="text"
-            autoComplete="off"
             id="floating_outlined"
-            className="block px-5 pt-4 h-14 w-full text-sm dark:bg-transparent rounded-md border-1 appearance-none text-white dark:border-gray-600 border-y border-x border-slate-500 focus:border-0 hover:border-slate-500 dark:focus:border-blue-500 focus:outline-dashed outline-white outline-offset-4 focus:ring-1 focus:border-blue-600 peer autofill:bg-transparent"
+            className="block px-5 pt-4 h-14 w-full text-md dark:bg-transparent rounded-md border-1 appearance-none text-white dark:border-gray-600 border-y border-x border-slate-500 focus:border-0 hover:border-slate-500 dark:focus:border-blue-500 focus:outline-dashed outline-white outline-offset-4 focus:ring-1 focus:border-blue-600 peer autofill:bg-transparent"
             placeholder=" "
           />
           <label

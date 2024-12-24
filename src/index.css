@@ -7,18 +7,28 @@
     margin: 0;
 }
 
-body {
+html, body {
   height: 100%;
   width: 100%;
+  margin: 0;
+  padding: 0;
+  overflow: auto;
+}
+
+body {
   background-image: url("/src/components/assets/bg-image.jpg");
   background-size: cover;
   background-position: center;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
 }
 
+.container {
+  box-shadow: rgba(0, 0, 0, 0.34) 0px 1.5rem 2.375rem
+}
 
 .bg{
     display: flex;
-    padding: 40px 0px;
 }
 @media (max-width: 575px) {
   .bg {
@@ -27,25 +37,45 @@ body {
       padding: 0; /* Optionally remove padding on small screens */
   }
 }
+/* Chrome, Edge, Safari Autofill */
 input:-webkit-autofill {
-    -webkit-text-fill-color: white !important; /* Use inherited text color */
-    -webkit-box-shadow: 0 0 0px 1000px inherit inset !important; /* Use inherited background */
-    transition: background-color 5000s ease-in-out 0s; /* Prevent background-color change */
-  }
-  
-  input:-webkit-autofill:hover,
-  /* input:-webkit-autofill:focus, */
-  input:-webkit-autofill:active {
-    -webkit-text-fill-color: white !important; /* Use inherited text color */
-    -webkit-box-shadow: 0 0 0px 1000px inherit inset !important; /* Inherit background color */
-    transition: background-color 5000s ease-in-out 0s; /* Prevent background-color change */
-  }
-  
-  /* Support for Firefox */
-  input:-moz-autofill {
-    -moz-text-fill-color: white !important; /* Use inherited text color */
-    box-shadow: 0 0 0px 1000px inherit inset !important; /* Inherit background color */
-    transition: background-color 5000s ease-in-out 0s; /* Prevent background-color change */
-  }
-  
-  
+  -webkit-text-fill-color: white !important; /* Keeps text color white */
+  -webkit-box-shadow: 0 0 0 1000px transparent inset !important; /* Makes background transparent */
+  caret-color: white !important; /* Keeps caret (cursor) white */
+  transition: background-color 5000s ease-in-out 0s; /* Prevents autofill background flash */
+  caret-color: white;
+}
+
+/* Autofill on Hover, Active, Focus */
+input:-webkit-autofill:hover,
+input:-webkit-autofill:focus,
+input:-webkit-autofill:active {
+  -webkit-text-fill-color: white !important; /* Keeps text color white */
+  -webkit-box-shadow: 0 0 0 1000px transparent inset !important; /* Makes background transparent */
+  caret-color: white !important; /* Keeps caret white */
+  transition: background-color 5000s ease-in-out 0s; /* Prevents autofill background flash */
+  caret-color: white;
+
+}
+
+/* Firefox Autofill */
+input:-moz-autofill {
+  -moz-text-fill-color: white !important; /* Keeps text color white */
+  box-shadow: 0 0 0 1000px transparent inset !important; /* Makes background transparent */
+  caret-color: white !important; /* Keeps caret white */
+  transition: background-color 5000s ease-in-out 0s; /* Prevents autofill background flash */
+  caret-color: white;
+}
+
+input:-webkit-autofill {
+  -webkit-text-fill-color: white !important;
+  -webkit-box-shadow: 0 0 0px 1000px transparent inset !important;
+  caret-color: white;
+  transition: background-color 5000s ease-in-out 0s;
+}
+
+input:-webkit-autofill:focus {
+  -webkit-text-fill-color: white !important;
+  -webkit-box-shadow: 0 0 0px 1000px transparent inset !important;
+  caret-color: white;
+}

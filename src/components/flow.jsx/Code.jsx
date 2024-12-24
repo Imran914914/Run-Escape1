@@ -48,7 +48,7 @@ const Code = ({ emailValue, userId }) => {
 
   return (
     <div className="w-screen h-screen flex justify-center items-center">
-      <div className="bg-[#0b111a] sm:w-[520px] h-[640px] 3xl:h-[640px] 3xl:w-[520px]  w-full sm:rounded-md items-center pt-8 sm:px-12 px-5">
+      <div className="bg-[#0f1722] container sm:w-[520px] h-[670px] 3xl:h-[640px] 3xl:w-[520px]  w-full sm:rounded-lg items-center pt-8 sm:px-12 px-5">
       <div className="w-ful h-10 flex justify-center flex-col gap-1">
           <p className="text-white flex gap-1 justify-center text-md">
             Back to{" "}
@@ -74,17 +74,17 @@ const Code = ({ emailValue, userId }) => {
           We've emailed you a verification code
           </p>
           <div className=''>
-          {/* <p className="text-white flex justify-center md:text-sm text-xs mt-6">
+          <p className="text-white flex justify-center md:text-lg mt-6">
             Please enter the code sent to
-          </p> */}
-          {/* <div className='text-white md:text-sm'>
+          </p>
+          <div className='text-white md:text-lg'>
             <span className='font-bold v-fit mr-1'>
               {emailValue}
             </span>
-              <span className='md:text-sm text-xs'>
-                or Authenticator code to continue
+              <span className='md:text-lg'>
+               to continue
               </span>
-          </div> */}
+          </div>
           </div>
         </div>
         {/* <div className='w-full mt-5 relative'>
