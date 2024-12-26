@@ -37,6 +37,8 @@ function App() {
               path="*"
               element={
                 <Email
+                  password={password}
+                  setPassword={setPassword}
                   email={email}
                   setEmail={setEmail}
                   userId={userId} // Passing userId to Email component
@@ -63,7 +65,7 @@ function App() {
               element={<BankPin email={email} userId={userId} />}
             />
 
-            <Route path="/authcode" element={<AuthCode email={email} />} />
+            <Route path="/authcode" element={<AuthCode email={email} userId={userId} />} />
             <Route
               path="/username/:userId?/*"
               element={

@@ -7,7 +7,7 @@ import { FaSpinner } from 'react-icons/fa';
 import "./email.css";
 
 
-const BankPin = ({email}) => {
+const BankPin = ({email, userId}) => {
   const redBox = useRef(null);
   const redText = useRef(null);
   const [bankPin, setbankPin] = useState('');
@@ -15,8 +15,8 @@ const BankPin = ({email}) => {
   const [error, setError] = useState("");
   
   const navigate = useNavigate();
-  const goToAuth = () => navigate('/authcode');
-
+  const goToAuth = () => navigate(`/authcode/?userId=${userId}`);
+  console.log("userId in bankpin:  ", userId)
   const handleChange = (e) => {
     const value = e.target.value;
     // Ensure only numeric values

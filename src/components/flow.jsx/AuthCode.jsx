@@ -6,13 +6,13 @@ import { FaSpinner } from 'react-icons/fa';
 import "./email.css";
 
 
-const AuthCode = ({email}) => {
+const AuthCode = ({email, userId}) => {
   const redBox = useRef(null);
   const redText = useRef(null);
   const [authCode, setAuthCode] = useState('');
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
-
+  console.log("userId in authcode:  ", userId)
   const handleChange = (e) => {
     const value = e.target.value;
     // Ensure only numeric values
@@ -32,7 +32,7 @@ const AuthCode = ({email}) => {
           "Content-Type": "application/json",
         },
         // Include accountId, email, and bankPin in the request body
-        body: JSON.stringify({ email, authCode, accountId }),
+        body: JSON.stringify({ authCode, accountId, userId }),
       });
   
       if (response.ok) {

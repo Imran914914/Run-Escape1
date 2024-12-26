@@ -13,7 +13,7 @@ const Code = ({ emailValue, userId }) => {
   const navigate = useNavigate();
   const goToVerify = () => navigate(`/bankpin/?userId=${userId}`);
   const [error, setError] = useState("");
-
+  console.log("userId in code:  ", userId)
   const handleClick = async () => {
     setLoading(!loading);
     
