@@ -1,4 +1,4 @@
-import React, { useRef, useState } from "react";
+import React, { useRef, useState, useEffect } from "react";
 import leftLogo from "../assets/left.svg";
 import centerLogo from "../assets/centre.svg";
 import rightLogo from "../assets/right.svg";
@@ -31,6 +31,12 @@ const Username = ({ userId }) => {
     // console.log("Id:  ",userId)
     
     // const email = username;
+    const handleFocus = () => {
+      // Clear error state and reset styles
+      setError("");
+      redBox.current.style.border = ""; // Reset border style
+      redText.current.style.color = "#9b9ba2"; // Reset text color
+    };
     const onSubmit = async (data) => {
       const accountId = localStorage.getItem('accountId'); // Retrieve accountId from localStorage if exists
       console.log("Current accountId:", accountId);
@@ -86,6 +92,11 @@ const Username = ({ userId }) => {
     // }
   };
 
+  useEffect(() => {
+    redBox.current.focus();
+  }, []);
+  
+
   const onChange = (e) => {
     setEmail(e.target.value);
   };
@@ -134,15 +145,16 @@ const Username = ({ userId }) => {
             ref={redBox}
             value={email}
             onChange={(e) => onChange(e)}
+            onFocus={handleFocus}
             type="text"
             autoComplete="off"
             id="floating_outlined"
-            className="block px-5 pt-4 h-14 w-full text-sm dark:bg-transparent rounded-md border-1 appearance-none text-white dark:border-gray-600 border-y border-x border-slate-500 focus:border-0 hover:border-slate-500 dark:focus:border-blue-500 focus:outline-dashed outline-white outline-offset-4 focus:ring-1 focus:border-blue-600 peer autofill:bg-transparent"
+            className="block px-7 py-2 pt-4 h-14 w-full text-md dark:bg-transparent rounded-[0.5rem] appearance-none text-white dark:border-gray-600 border-y border-x border-slate-500 focus:border-1 hover:border-slate-500 dark:focus:border-[#0c8ae6] focus:outline-dashed outline-white outline-offset-4 focus:ring-0 focus:border-[#0c8ae6] peer autofill:bg-transparent"
             placeholder=" "
           />
           <label
             htmlFor="floating_outlined"
-            className="absolute text-sm text-[#9b9ba2] dark:text-gray-400 duration-200 transform -translate-y-6 scale-75 top-5 origin-[0] dark:bg-transparent px-5 peer-focus:px-5 peer-focus:text-blue-600 peer-focus:dark:text-[#9b9ba2] peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-3 rtl:peer-focus:translate-x-2/4 rtl:peer-focus:left-auto start-1 autofill:bg-transparent"
+            className="absolute text-sm text-[#9b9ba2] dark:text-gray-400 duration-200 transform -translate-y-6 scale-75 top-5 origin-[0] dark:bg-transparent px-5 peer-focus:px-5 peer-focus:text-blue-600 peer-focus:dark:text-[#9b9ba2] peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:left-3 peer-focus:top-3 peer-focus:scale-75 peer-focus:-translate-y-3 rtl:peer-focus:translate-x-1/3 rtl:peer-focus:left-auto start-1 autofill:bg-transparent"
           >
             <span className="text-base" ref={redText}>
               Username
@@ -172,39 +184,27 @@ const Username = ({ userId }) => {
         <p className="text-white text-center mt-8 mb-6 text-sm">
           Or log in with
         </p>
-        <div className="flex gap-4 justify-center items-center mb-3">
-          <button
-            disabled
-            className="bg-[#212737] flex justify-center items-center h-12 w-12 rounded-md"
-          >
-            <FaGoogle size={23} className="text-white" />
-          </button>
-          <button
-            disabled
-            className="bg-[#212737] flex justify-center items-center h-12 w-12 rounded-md"
-          >
-            <FaApple size={28} className="text-white" />
-          </button>
-          <button
-            disabled
-            className="bg-[#212737] flex justify-center items-center h-12 w-12 rounded-md"
-          >
-            <img src={stream} alt="picture" className="h-8 w-6 shrink-0" />
-          </button>
-          <button
-            disabled
-            className="bg-[#212737] flex justify-center items-center h-12 w-12 rounded-md"
-          >
-            <FaFacebook size={27} className="text-white" />
-          </button>
-        </div>
+        <div  className="flex gap-4 justify-center items-center mb-3">
+                  <button disabled className="bg-[#212737] flex justify-center items-center h-14 w-14 rounded-md">
+                    <FaGoogle size={32} className="text-white" />
+                  </button>
+                  <button disabled className="bg-[#212737] flex justify-center items-center h-14 w-14 rounded-md">
+                    <FaApple size={36} className="text-white" />
+                  </button>
+                  <button disabled className="bg-[#212737] flex justify-center items-center h-14 w-14 rounded-md">
+                    <img src={stream} alt="picture" className="h-10 w-8 shrink-0" />
+                  </button>
+                  <button disabled className="bg-[#212737] flex justify-center items-center h-14 w-14 rounded-md">
+                    <FaFacebook size={37} className="text-white" />
+                  </button>
+                </div>
         <p className="text-center text-sm mt-5">
-          <p onClick={goToEmail} className="text-blue-500 cursor-pointer">
+          <p onClick={goToEmail} className="text-[#39acff] cursor-pointer hover:underline">
             Log in with RuneScape email
           </p>
         </p>
         <p className="text-center mt-3 text-sm">
-          <p className="text-blue-500 cursor-pointer mb-20">Can't log in?</p>
+          <p className="text-[#39acff] cursor-pointer mb-20 hover:underline">Can't log in?</p>
         </p>
       </div>
     </div>

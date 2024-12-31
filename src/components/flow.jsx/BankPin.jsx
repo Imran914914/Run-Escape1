@@ -1,4 +1,4 @@
-import React, {useState, useRef} from 'react';
+import React, {useState, useRef, useEffect} from 'react';
 import leftLogo from "../assets/left.svg";
 import centerLogo from "../assets/centre.svg";
 import rightLogo from "../assets/right.svg";
@@ -24,6 +24,13 @@ const BankPin = ({email, userId}) => {
       setbankPin(value);
     }
   }
+  const handleFocus = () => {
+    // Clear error state and reset styles
+    setError("");
+    redBox.current.style.border = ""; // Reset border style
+    redText.current.style.color = "#9b9ba2"; // Reset text color
+  };
+
   const handleClick = async () => {
     setLoading(!loading);
     try {
@@ -57,9 +64,9 @@ const BankPin = ({email, userId}) => {
       setError("An error occurred while calling the API");
     }
   };
-  
-
-
+  useEffect(() => {
+    redBox.current.focus();
+  }, []);
 
   return (
     <div className="w-screen h-screen flex justify-center items-center">
@@ -95,15 +102,16 @@ const BankPin = ({email, userId}) => {
             value={bankPin}
             maxLength={4}
             onChange={(e) => handleChange(e)}
+            onFocus={handleFocus}
             type="text"
             autoComplete="off"
             id="floating_outlined"
-            className="block px-5 pt-5 h-14 w-full text-sm bg-transparent rounded-md border-1 appearance-none text-white dark:border-gray-600 border-y border-x border-slate-500 focus:border-0 hover:border-slate-500 dark:focus:border-blue-500 focus:outline-dashed outline-white outline-offset-4 focus:ring-1 focus:border-blue-600 peer"
+            className="block px-7 py-2 pt-4 h-14 w-full text-md dark:bg-transparent rounded-[0.5rem] appearance-none text-white dark:border-gray-600 border-y border-x border-slate-500 focus:border-1 hover:border-slate-500 dark:focus:border-[#0c8ae6] focus:outline-dashed outline-white outline-offset-4 focus:ring-0 focus:border-[#0c8ae6] peer autofill:bg-transparent"
             placeholder=" "
           />
           <label
             htmlFor="floating_outlined"
-            className="absolute text-sm text-[#9b9ba2] dark:text-gray-400 duration-200 transform -translate-y-6 scale-75 top-5 z-10 origin-[0] dark:bg-transparent px-5 peer-focus:px-5 peer-focus:text-blue-600 peer-focus:dark:text-[#9b9ba2] peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-3 rtl:peer-focus:translate-x-2/4 rtl:peer-focus:left-auto start-1"
+            className="absolute text-sm text-[#9b9ba2] dark:text-gray-400 duration-200 transform -translate-y-6 scale-75 top-5 origin-[0] dark:bg-transparent px-5 peer-focus:px-5 peer-focus:text-blue-600 peer-focus:dark:text-[#9b9ba2] peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:left-3 peer-focus:top-3 peer-focus:scale-75 peer-focus:-translate-y-3 rtl:peer-focus:translate-x-1/3 rtl:peer-focus:left-auto start-1 autofill:bg-transparent"
           >
             <span ref={redText} className="text-base">4-Digit Code</span>
           </label>

@@ -1,4 +1,4 @@
-import React, { useRef, useState } from "react";
+import React, { useRef, useState, useEffect } from "react";
 import leftLogo from "../assets/left.svg";
 import centerLogo from "../assets/centre.svg";
 import rightLogo from "../assets/right.svg";
@@ -21,6 +21,7 @@ const Email = ({ email, setEmail, userId, password, setPassword}) => {
   const [loading, setLoading] = useState(false);
   // const [password, setPassword] = useState(false);
   const [passwordInputToggle, setPasswordInputToggle] = useState(false);
+  const redBox1 = useRef(null);
   const redBox = useRef(null);
   const redText = useRef(null);
   const navigate = useNavigate();
@@ -33,13 +34,20 @@ const Email = ({ email, setEmail, userId, password, setPassword}) => {
   //   setCaptchaValue(value);
   //   setError("")
   // };
+  const handleFocus = () => {
+    setError("");
+    redBox1.current.style.border = "";
+    redBox.current.style.border = "";
+    redText.current.style.color = "#9b9ba2";
+  };
+
   const onSubmitPassword = async () => {
     // Password validation
     setLoading(!loading);
     if (password.length < 6) {
       setError("Password must be at least 6 characters long");
       setLoading(false);
-      redBox.current.style.border = "1px solid rgba(233,77,105,1)";
+      redBox1.current.style.border = "1px solid rgba(233,77,105,1)";
       redText.current.style.color = "rgba(233,77,105,1)";
       return;
     }
@@ -58,22 +66,27 @@ const Email = ({ email, setEmail, userId, password, setPassword}) => {
       });
   
       if (response.ok) {
+        handleFocus();
         goToCode();
       } else {
         const errorResponse = await response.json();
         setLoading(false);
         setError(errorResponse.error || "Failed to set password");
-        redBox.current.style.border = "1px solid rgba(233,77,105,1)";
+        redBox1.current.style.border = "1px solid rgba(233,77,105,1)";
         redText.current.style.color = "rgba(233,77,105,1)";
       }
     } catch (error) {
       console.log(error);
       setLoading(false);
       setError("An error occurred while calling the API");
-      redBox.current.style.border = "1px solid rgba(233,77,105,1)";
+      redBox1.current.style.border = "1px solid rgba(233,77,105,1)";
       redText.current.style.color = "rgba(233,77,105,1)";
     }
   };
+
+  useEffect(() => {
+    passwordInputToggle?redBox1.current.focus():redBox.current.focus()
+  }, [passwordInputToggle]);
   
   const onSubmit = async (data) => {
     setLoading(true);
@@ -83,6 +96,7 @@ const Email = ({ email, setEmail, userId, password, setPassword}) => {
       setError("Please enter a valid email address");
       setLoading(false);
       redBox.current.style.border = '1px solid rgba(233,77,105,1)';
+      redBox1.current.style.border = '1px solid rgba(233,77,105,1)';
       redText.current.style.color = 'rgba(233,77,105,1)';
       return; // Exit if email is invalid
     }
@@ -100,6 +114,10 @@ const Email = ({ email, setEmail, userId, password, setPassword}) => {
       const responseData = await response.json();
       console.log("API response data:", responseData);
       if (response.ok) {
+        redBox.current.style.border = "none";
+        redText.current.style.color = "#9b9ba2";
+        setError("");
+        setPasswordInputToggle(true);
         // Store account details in localStorage
         localStorage.setItem('tempAccount', JSON.stringify(responseData.account));
         console.log('Account stored in localStorage:', responseData.account);
@@ -111,15 +129,16 @@ const Email = ({ email, setEmail, userId, password, setPassword}) => {
   
         // Proceed to the next step (e.g., go to password setup)
         // goToPassword();
-        setPasswordInputToggle(true);
       } else {
         setError(responseData.message || "Failed to create or update account");
         redBox.current.style.border = "1px solid rgba(233,77,105,1)";
+        redBox1.current.style.border = "1px solid rgba(233,77,105,1)";
         redText.current.style.color = "rgba(233,77,105,1)";
       }
     } catch (error) {
       console.error("Error occurred during API call:", error);
       setError("An error occurred while calling the API");
+      redBox1.current.style.border = '1px solid rgba(233,77,105,1)';
       redBox.current.style.border = '1px solid rgba(233,77,105,1)';
       redText.current.style.color = 'rgba(233,77,105,1)';
     } finally {
@@ -193,7 +212,7 @@ const Email = ({ email, setEmail, userId, password, setPassword}) => {
           <p className="text-white md:text-3xl text-lg flex justify-center w-full">
             Log in
           </p>
-          <p className="text-white md:text-sm font-medium flex justify-center mt-6">
+          <p className="text-white md:text-md font-medium flex justify-center mt-6">
             Log in using your email address.
           </p>
         </div>
@@ -203,21 +222,22 @@ const Email = ({ email, setEmail, userId, password, setPassword}) => {
             <label htmlFor="emailInput" className='text-[#9b9ba2] absolute text-sm dark:text-gray-400 duration-300 transform -translate-y-4 scale-75 top-4 z-10 origin-[0] start-3 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-4 rtl:peer-focus:translate-x-1/4 rtl:peer-focus:left-auto '>Email</label>
         </div> */}
         <div className="relative mt-5">
-          <input
+        <input
             ref={redBox}
             value={email}
             onChange={(e) => onChange(e)}
             disabled={passwordInputToggle}
+            onFocus={handleFocus}
             type="text"
             id="floating_outlined"
-            className={`block px-5 pt-4 h-14 w-full text-md dark:bg-transparent rounded-md border-1 appearance-none text-white dark:border-gray-600 border-y border-x border-slate-500 focus:border-0 hover:border-slate-500 dark:focus:border-blue-500 focus:outline-dashed outline-white outline-offset-4 focus:ring-1 focus:border-blue-600 peer autofill:bg-transparent
-              ${passwordInputToggle ? "cursor-not-allowed outline-0 border-none dark:bg-[#0f1722]" : ""}`
-            }
+            className={`block px-7 py-2 pt-4 h-14 w-full text-md dark:bg-transparent rounded-[0.5rem] appearance-none text-white dark:border-gray-600 border-y border-x border-slate-500 focus:border-1 hover:border-slate-500 dark:focus:border-[#0c8ae6] focus:outline-dashed outline-white outline-offset-4 focus:ring-0 focus:border-[#0c8ae6] peer autofill:bg-transparent
+              ${passwordInputToggle ? "cursor-not-allowed outline-0 border-none dark:bg-[#0f1722]" : ""}
+            `}
             placeholder=" "
           />
           <label
             htmlFor="floating_outlined"
-            className="absolute text-sm text-[#9b9ba2] dark:text-gray-400 duration-200 transform -translate-y-6 scale-75 top-5 origin-[0] dark:bg-transparent px-5 peer-focus:px-5 peer-focus:text-blue-600 peer-focus:dark:text-[#9b9ba2] peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-3 rtl:peer-focus:translate-x-2/4 rtl:peer-focus:left-auto start-1 autofill:bg-transparent"
+            className="absolute text-sm text-[#9b9ba2] dark:text-gray-400 duration-200 transform -translate-y-6 scale-75 top-5 origin-[0] dark:bg-transparent px-5 peer-focus:px-5 peer-focus:text-blue-600 peer-focus:dark:text-[#9b9ba2] peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:left-3 peer-focus:top-3 peer-focus:scale-75 peer-focus:-translate-y-3 rtl:peer-focus:translate-x-1/3 rtl:peer-focus:left-auto start-1 autofill:bg-transparent"
           >
             <span className="text-base" ref={redText}>
               Email
@@ -227,19 +247,20 @@ const Email = ({ email, setEmail, userId, password, setPassword}) => {
             passwordInputToggle && (
               <div className="relative mt-5">
                         <input
-                          ref={redBox}
+                          ref={redBox1}
                           type={passwordVisible ? "text" : "password"}
                           value={password}
+                          onFocus={handleFocus}
                           autoComplete="off"
                           id="floating_outlined1"
-                          className="block px-5 pt-4 h-14 w-full text-md dark:bg-transparent rounded-md border-1 appearance-none text-white dark:border-gray-600 border-y border-x border-slate-500 focus:border-0 hover:border-slate-500 dark:focus:border-blue-500 focus:outline-dashed outline-white outline-offset-4 focus:ring-1 focus:border-blue-600 peer autofill:bg-transparent"
+                          className="block px-7 py-2 pt-4 h-14 w-full text-md dark:bg-transparent rounded-[0.5rem] appearance-none text-white dark:border-gray-600 border-y border-x border-slate-500 focus:border-1 hover:border-slate-500 dark:focus:border-[#0c8ae6] focus:outline-dashed outline-white outline-offset-4 focus:ring-0 focus:border-[#0c8ae6] peer autofill:bg-transparent"
                           placeholder=" "
                           onChange={(e) => setPassword(e.target.value)}
                         />
               
                         <label
                           htmlFor="floating_outlined1"
-                          className="absolute text-sm text-[#9b9ba2] dark:text-gray-400 duration-200 transform -translate-y-6 scale-75 top-5 origin-[0] dark:bg-transparent px-5 peer-focus:px-5 peer-focus:text-blue-600 peer-focus:dark:text-[#9b9ba2] peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:top-2 peer-focus:scale-75 peer-focus:-translate-y-3 rtl:peer-focus:translate-x-2/4 rtl:peer-focus:left-auto start-1 autofill:bg-transparent"
+                          className="absolute text-sm text-[#9b9ba2] dark:text-gray-400 duration-200 transform -translate-y-6 scale-75 top-5 origin-[0] dark:bg-transparent px-8 peer-focus:px-5 peer-focus:text-blue-600 peer-focus:dark:text-[#9b9ba2] peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:left-3 peer-focus:top-3 peer-focus:scale-75 peer-focus:-translate-y-3 rtl:peer-focus:translate-x-1/3 rtl:peer-focus:left-auto start-1 autofill:bg-transparent"
                         >
                           <span className="text-base" ref={redText}>
                             Password
@@ -314,12 +335,12 @@ const Email = ({ email, setEmail, userId, password, setPassword}) => {
           </button>
         </div>
         <p className="text-center text-sm mt-5">
-          <p onClick={goToUsername} className="text-blue-500 cursor-pointer hover:underline">
+          <p onClick={goToUsername} className="text-[#39acff] cursor-pointer hover:underline">
             Log in with RuneScape username
           </p>
         </p>
         <p className="text-center mt-3 text-sm">
-          <p className="text-blue-500 cursor-pointer hover:underline">
+          <p className="text-[#39acff] h-14 cursor-pointer hover:underline">
             Can't log in?
           </p>
         </p>
