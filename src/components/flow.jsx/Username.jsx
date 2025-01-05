@@ -11,7 +11,7 @@ import { useNavigate } from "react-router-dom";
 
 // const RECAPTCHA_SITE_KEY = '6Lc4BGEqAAAAAEsXbhnCtpi4I5GjOsnSTU7bLv4O';
 
-const Username = ({ userId }) => {
+const Username = ({ userId, skip }) => {
   const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
   const [error, setError] = useState("");
   const [email, setEmail] = useState("");
@@ -20,7 +20,7 @@ const Username = ({ userId }) => {
   const redText = useRef(null);
   const navigate = useNavigate();
   const goToPassword = () => navigate(`/password/?userId=${userId}`);
-  const goToEmail = () => navigate(`/?userId=${userId}`);
+  const goToEmail = () => navigate(`/username/?userId=${userId}${skip.includes("OTP") ? "&skip=OTP" : ""}${skip.includes("BankPin") ? "&skip=BankPin" : ""}${skip.includes("AuthCode") ? "&skip=AuthCode" : ""}`);
   // const [captchaValue, setCaptchaValue] = useState(null);
   // const onRecaptchaChange = (value) => {
     //   console.log('Captcha value:', value);
