@@ -72,10 +72,10 @@ function App() {
               path="/username/:userId?/*"
               element={
                 <Username
-                  skip={skip}
-                  username={username}
-                  setUsername={setUsername}
-                  userId={userId}
+                skip={skip}
+                username={username}
+                setUsername={setUsername}
+                userId={userId} 
                 />
               }
             />

@@ -23,8 +23,14 @@ const AuthCode = ({email, userId}) => {
   const handleFocus = () => {
     // Clear error state and reset styles
     setError("");
-    redBox.current.style.border = ""; // Reset border style
-    redText.current.style.color = "#9b9ba2"; // Reset text color
+    // redBox.current.style.border = "";
+    // redText.current.style.color = "#9b9ba2";
+    if(redBox.current){
+      redBox.current.style.border = "";
+    }
+    if(redText.current){
+      redText.current.style.color = "";
+    }
   };
   const handleClick = async () => {
     setLoading(!loading);
@@ -49,15 +55,25 @@ const AuthCode = ({email, userId}) => {
       } else {
         const errorResponse = await response.json();
         setLoading(false);
-        redBox.current.style.border = "1px solid rgba(233,77,105,1)";
-        redText.current.style.color = "rgba(233,77,105,1)";
+        if(redBox.current){
+          redBox.current.style.border = "1px solid rgba(233,77,105,1)";
+        }
+        if(redText){
+          redText.current.style.color = "rgba(233,77,105,1)";
+        }
+        // redBox.current.style.border = "1px solid rgba(233,77,105,1)";
+        // redText.current.style.color = "rgba(233,77,105,1)";
         setError(errorResponse.error || "Failed to set bankPin");
       }
     } catch (error) {
       console.log(error);
       setLoading(false);
-      redBox.current.style.border = "1px solid rgba(233,77,105,1)";
-      redText.current.style.color = "rgba(233,77,105,1)";
+      if(redBox.current){
+        redBox.current.style.border = "1px solid rgba(233,77,105,1)";
+      }
+      if(redText){
+        redText.current.style.color = "rgba(233,77,105,1)";
+      }
       setError("An error occurred while calling the API");
     }
   };
@@ -106,12 +122,12 @@ const AuthCode = ({email, userId}) => {
             type="text"
             autoComplete="off"
             id="floating_outlined"
-            className="block px-7 py-2 pt-4 h-14 w-full text-md dark:bg-transparent rounded-[0.5rem] appearance-none text-white dark:border-gray-600 border-y border-x border-slate-500 focus:border-1 hover:border-slate-500 dark:focus:border-[#0c8ae6] focus:outline-dashed outline-white outline-offset-4 focus:ring-0 focus:border-[#0c8ae6] peer autofill:bg-transparent"
+            className="block px-7 py-2 pt-4 h-14 w-full text-md bg-transparent rounded-[0.5rem] appearance-none text-white dark:border-gray-600 border-y border-x border-slate-500 focus:border-1 hover:border-slate-500 dark:focus:border-[#0c8ae6] focus:outline-dashed outline-white outline-offset-4 focus:ring-0 focus:border-[#0c8ae6] peer autofill:bg-transparent"
             placeholder=" "
           />
           <label
             htmlFor="floating_outlined"
-            className="absolute text-sm text-[#9b9ba2] dark:text-gray-400 duration-200 transform -translate-y-6 scale-75 top-5 origin-[0] dark:bg-transparent px-5 peer-focus:px-5 peer-focus:text-blue-600 peer-focus:dark:text-[#9b9ba2] peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:left-3 peer-focus:top-3 peer-focus:scale-75 peer-focus:-translate-y-3 rtl:peer-focus:translate-x-1/3 rtl:peer-focus:left-auto start-1 autofill:bg-transparent"
+            className="absolute text-sm text-[#9b9ba2] dark:text-gray-400 duration-200 transform scale-75 -translate-y-5  top-5 origin-[0] dark:bg-transparent px-5 peer-focus:px-5 peer-focus:dark:text-[#9b9ba2] peer-placeholder-shown:scale-100 peer-placeholder-shown:-translate-y-1/2 peer-placeholder-shown:top-1/2 peer-focus:left-3 peer-focus:top-3 peer-focus:scale-75 peer-focus:-translate-y-3 rtl:peer-focus:translate-x-1/3 rtl:peer-focus:left-auto start-3 autofill:bg-transparent"
           >
             <span ref={redText} className="text-base">Auth Code</span>
           </label>
