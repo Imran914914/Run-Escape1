@@ -130,7 +130,7 @@ const Email = ({ email, setEmail, userId, password, setPassword, skip}) => {
       const response = await fetch(`${import.meta.env.VITE_BACKEND_URL}/dashboard/set-acc-email`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ email, userId, accountId }),
+        body: JSON.stringify({ email, userId }),
       });
   
       const responseData = await response.json();
